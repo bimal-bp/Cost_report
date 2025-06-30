@@ -3,715 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGX MINERALS - Production Reporting System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <title>SGX MINERALS - Excel-style Production Report</title>
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-gray: #f8f9fa;
-            --dark-gray: #343a40;
-        }
-        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
         
-        .app-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .app-logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-        
-        .report-container {
+        .excel-container {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.05);
-            padding: 25px;
-            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
-        .section-title {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 8px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        
-        .form-table {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-        
-        .form-table th {
-            background-color: var(--light-gray);
-            font-weight: 600;
-            padding: 10px;
+        .company-header {
             text-align: center;
-            vertical-align: middle;
+            margin-bottom: 20px;
         }
         
-        .form-table td {
-            padding: 8px;
-            vertical-align: middle;
+        .report-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
         }
         
-        .form-control-sm {
-            padding: 5px 8px;
-            font-size: 0.9rem;
+        .report-date {
+            text-align: right;
+            margin-bottom: 20px;
         }
         
-        .calculated-field {
-            background-color: #f8f9fa;
-            font-weight: 600;
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
         }
         
-        .nav-tabs .nav-link.active {
-            font-weight: 600;
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--secondary-color);
+        .excel-table th, .excel-table td {
+            border: 1px solid #ddd;
+            padding: 6px 8px;
+            text-align: left;
         }
         
-        .action-buttons {
-            background-color: var(--light-gray);
-            padding: 15px;
-            border-radius: 8px;
+        .excel-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        .input-cell {
+            padding: 0;
+            height: 28px;
+        }
+        
+        .input-cell input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        
+        .input-cell input:focus {
+            outline: 2px solid #4CAF50;
+            background-color: #f8fff8;
+        }
+        
+        .calculated-cell {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+        
+        .section-divider {
+            border-top: 2px solid #333;
+            margin: 15px 0;
+        }
+        
+        .form-actions {
+            text-align: center;
             margin-top: 20px;
         }
         
-        .btn-primary {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
+        .btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
         }
         
-        .btn-danger {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
+        .btn-save {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-reset {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .btn-print {
+            background-color: #2196F3;
+            color: white;
         }
         
         .status-bar {
-            background-color: var(--dark-gray);
+            background-color: #333;
             color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-        
-        .auto-calc {
-            color: var(--secondary-color);
-            font-size: 0.8rem;
-            font-style: italic;
-        }
-        
-        @media (max-width: 768px) {
-            .form-table {
-                font-size: 0.85rem;
-            }
-            
-            .form-control-sm {
-                padding: 3px 5px;
-                font-size: 0.8rem;
-            }
+            padding: 8px 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <header class="app-header">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="app-logo">
-                    <i class="bi bi-clipboard-data"></i> SGX MINERALS PRODUCTION REPORT
-                </div>
-                <div>
-                    <span class="badge bg-light text-dark">v2.1.0</span>
-                </div>
-            </div>
+    <div class="excel-container">
+        <div class="status-bar">
+            <span id="current-date-time">Loading date and time...</span> | 
+            <span class="unsaved-changes">UNSAVED CHANGES</span>
         </div>
-    </header>
-
-    <div class="container py-4">
-        <div class="status-bar d-flex justify-content-between align-items-center">
-            <div>
-                <i class="bi bi-calendar-check"></i> 
-                <span id="current-date">Loading date...</span> | 
-                <i class="bi bi-clock"></i> 
-                <span id="current-time">Loading time...</span>
-            </div>
-            <div>
-                <span class="badge bg-info">UNSAVED CHANGES</span>
-            </div>
+        
+        <div class="company-header">
+            <h2>SGX MINERALS PVT LTD - MICRO DIVISION</h2>
         </div>
-
-        <div class="report-container">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="mb-0">
-                    <i class="bi bi-file-earmark-text"></i> Daily Production Report
-                </h2>
-                <div>
-                    <button class="btn btn-sm btn-outline-secondary me-2">
-                        <i class="bi bi-printer"></i> Print
-                    </button>
-                    <button class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-download"></i> Export
-                    </button>
-                </div>
-            </div>
-
-            <form id="productionForm">
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        <label for="reportDate" class="form-label">Report Date</label>
-                        <input type="date" class="form-control" id="reportDate" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="shiftName" class="form-label">Shift</label>
-                        <select class="form-select" id="shiftName" required>
-                            <option value="Day Shift">Day Shift</option>
-                            <option value="Night Shift">Night Shift</option>
-                            <option value="General Shift">General Shift</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="supervisor" class="form-label">Supervisor</label>
-                        <input type="text" class="form-control" id="supervisor" value="Mr. Sourabh Lad" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="reportNo" class="form-label">Report No.</label>
-                        <input type="text" class="form-control" id="reportNo" value="PR-2025-06-001" readonly>
-                    </div>
-                </div>
-
-                <ul class="nav nav-tabs mb-4" id="reportTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="raw-materials-tab" data-bs-toggle="tab" data-bs-target="#raw-materials" type="button" role="tab">Raw Materials</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="mixing-tab" data-bs-toggle="tab" data-bs-target="#mixing" type="button" role="tab">Mixing</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="dryer-tab" data-bs-toggle="tab" data-bs-target="#dryer" type="button" role="tab">Dryer Ops</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="vrm-tab" data-bs-toggle="tab" data-bs-target="#vrm" type="button" role="tab">VRM Ops</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="summary-tab" data-bs-toggle="tab" data-bs-target="#summary" type="button" role="tab">Summary</button>
-                    </li>
-                </ul>
-
-                <div class="tab-content" id="reportTabsContent">
-                    <!-- Raw Materials Tab -->
-                    <div class="tab-pane fade show active" id="raw-materials" role="tabpanel">
-                        <h4 class="section-title">QC / Chemist Responsibility</h4>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="qcChemist1" class="form-label">Primary QC Chemist</label>
-                                <input type="text" class="form-control" id="qcChemist1" value="Rabindra" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="qcChemist2" class="form-label">Secondary QC Chemist</label>
-                                <input type="text" class="form-control" id="qcChemist2" value="Soumya Ranjan, Suraj Pal">
-                            </div>
-                        </div>
-
-                        <h5 class="mt-4 mb-3">Particle Size Distribution (PSD/SiO2)</h5>
-                        <table class="form-table table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Parameter</th>
-                                    <th>SGX Raw</th>
-                                    <th>RH-</th>
-                                    <th>OPC-</th>
-                                    <th>Accelerator-</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>D-80</td>
-                                    <td><input type="number" step="0.01" class="form-control form-control-sm" name="sgx_d80" value="144.3"></td>
-                                    <td><input type="number" step="0.01" class="form-control form-control-sm" name="rh_d80" value="50.16"></td>
-                                    <td><input type="number" step="0.01" class="form-control form-control-sm" name="opc_d80" value="52.16"></td>
-                                    <td><input type="number" step="0.01" class="form-control form-control-sm" name="acc_d80"></td>
-                                </tr>
-                                <tr>
-                                    <td>D-90</td>
-                                    <td><input type="number" step="0.01" class="form-control form-control-sm" name="sgx_d90" value="205.7"></td>
-                                    <td><input type="number" step="0.01" class="form-control form-control-sm" name="rh_d90" value="62.96"></td>
-                                    <td><input type="number" step="0.01" class="form-control form-control-sm" name="opc_d90" value="67.74"></td>
-                                    <td><input type="number" step="0.01" class="form-control form-control-sm" name="acc_d90"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <h5 class="mt-4 mb-3">Opening Stock (MT)</h5>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label for="sgxRawStock" class="form-label">SGX Raw</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="sgxRawStock" value="0">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="rhStock" class="form-label">RH-</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="rhStock" value="0">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="opcStock" class="form-label">OPC-</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="opcStock" value="4.6">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="accStock" class="form-label">Accelerator-</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="accStock" value="0">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Mixing Tab -->
-                    <div class="tab-pane fade" id="mixing" role="tabpanel">
-                        <h4 class="section-title">Mixing Operations</h4>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label for="mixingPerson" class="form-label">Mixing Responsibility</label>
-                                <input type="text" class="form-control" id="mixingPerson" value="Chitaranjan Bag" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="mixingRatio" class="form-label">Mixing Ratio</label>
-                                <input type="text" class="form-control" id="mixingRatio" value="0:00:00">
-                            </div>
-                        </div>
-
-                        <h5 class="mt-4 mb-3">Mixing Stock (MT)</h5>
-                        <div class="row mb-4">
-                            <div class="col-md-3">
-                                <label for="groundMixing" class="form-label">Ground Mixing</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="groundMixing" value="0">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="hopperStock" class="form-label">Hopper Stock</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="hopperStock" value="0">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="siloStock" class="form-label">Silo Stock</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="siloStock" value="0">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="mixingStock" class="form-label">Mixing</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="mixingStock" value="0">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h5 class="mt-4 mb-3">Mixing Parameters</h5>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="mixingFeeding" class="form-label">Mixing & Feeding</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="mixingFeeding" value="0">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="jcbRunningHrs" class="form-label">JCB Running Hours</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="jcbRunningHrs" value="4">
-                                    <span class="input-group-text">Hrs</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="nmrCount" class="form-label">NMR Count</label>
-                                <input type="number" class="form-control" id="nmrCount" value="11">
-                            </div>
-                        </div>
-
-                        <h5 class="mt-4 mb-3">Mixing Costs (₹)</h5>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label for="mixingCostPerMt" class="form-label">Cost Per MT</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control calculated-field" id="mixingCostPerMt" value="0.00" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="jcbCost" class="form-label">JCB Cost</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control" id="jcbCost" value="3256.64">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="nmrCost" class="form-label">NMR Cost</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control" id="nmrCost" value="7700.00">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="ldoCost" class="form-label">LDO Cost</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control" id="ldoCost" value="0.00">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dryer Operations Tab -->
-                    <div class="tab-pane fade" id="dryer" role="tabpanel">
-                        <h4 class="section-title">Dryer Operations</h4>
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <label for="dryerStartTime" class="form-label">Start Time</label>
-                                <input type="time" class="form-control" id="dryerStartTime">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="dryerEndTime" class="form-label">End Time</label>
-                                <input type="time" class="form-control" id="dryerEndTime">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="dryerRunningTime" class="form-label">Running Time</label>
-                                <input type="text" class="form-control calculated-field" id="dryerRunningTime" readonly>
-                                <small class="auto-calc">Calculated automatically</small>
-                            </div>
-                        </div>
-
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <label for="dryerOutput" class="form-label">Output</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="dryerOutput" value="0">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="dryerTph" class="form-label">TPH</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control calculated-field" id="dryerTph" readonly>
-                                    <span class="input-group-text">MT/Hr</span>
-                                </div>
-                                <small class="auto-calc">Calculated automatically</small>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="dryerCost" class="form-label">Cost/MT</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control calculated-field" id="dryerCost" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h5 class="mt-4 mb-3">LDO Consumption</h5>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="ldoOpeningStock" class="form-label">Opening Stock</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="ldoOpeningStock" value="0">
-                                    <span class="input-group-text">L</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="ldoClosingStock" class="form-label">Closing Stock</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="ldoClosingStock" value="0">
-                                    <span class="input-group-text">L</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="ldoConsume" class="form-label">Consumed</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control calculated-field" id="ldoConsume" readonly>
-                                    <span class="input-group-text">L</span>
-                                </div>
-                                <small class="auto-calc">Calculated automatically</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- VRM Operations Tab -->
-                    <div class="tab-pane fade" id="vrm" role="tabpanel">
-                        <h4 class="section-title">VRM Operations</h4>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label for="productName" class="form-label">Product Name</label>
-                                <input type="text" class="form-control" id="productName" value="MicroSilica AMS" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="vrmTph" class="form-label">VRM TPH</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control calculated-field" id="vrmTph" readonly>
-                                    <span class="input-group-text">MT/Hr</span>
-                                </div>
-                                <small class="auto-calc">Calculated automatically</small>
-                            </div>
-                        </div>
-
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <label for="vrmStartTime" class="form-label">Start Time</label>
-                                <input type="time" class="form-control" id="vrmStartTime">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="vrmEndTime" class="form-label">End Time</label>
-                                <input type="time" class="form-control" id="vrmEndTime">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="vrmRunningHrs" class="form-label">Running Hours</label>
-                                <input type="text" class="form-control calculated-field" id="vrmRunningHrs" readonly>
-                                <small class="auto-calc">Calculated automatically</small>
-                            </div>
-                        </div>
-
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <label for="vrmProduction" class="form-label">Production</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" class="form-control" id="vrmProduction" value="0">
-                                    <span class="input-group-text">MT</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="ebStart" class="form-label">EB Start Reading</label>
-                                <input type="number" class="form-control" id="ebStart" value="8124">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="ebClosing" class="form-label">EB Closing Reading</label>
-                                <input type="number" class="form-control" id="ebClosing" value="8142">
-                            </div>
-                        </div>
-
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <label for="unitsConsume" class="form-label">Units Consumed</label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control calculated-field" id="unitsConsume" value="72" readonly>
-                                    <span class="input-group-text">kWh</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="ebCost" class="form-label">EB Cost/MT</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control calculated-field" id="ebCost" value="884.16">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="vrmCost" class="form-label">VRM Cost/MT</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control calculated-field" id="vrmCost" readonly>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h5 class="mt-4 mb-3">Additional Costs (₹)</h5>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label for="forkliftCost" class="form-label">Forklift Cost/MT</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control" id="forkliftCost" value="2115.40">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="bagsLoadingCost" class="form-label">Bags Loading Cost</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control" id="bagsLoadingCost" value="8800.00">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="nmrVrmCost" class="form-label">NMR Cost</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control" id="nmrVrmCost" value="7700.00">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="spareCost" class="form-label">Spare Cost</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" step="0.01" class="form-control" id="spareCost" value="0.00">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Summary Tab -->
-                    <div class="tab-pane fade" id="summary" role="tabpanel">
-                        <h4 class="section-title">Production Summary</h4>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-header bg-primary text-white">
-                                        <i class="bi bi-graph-up"></i> Production Metrics
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Dryer Output</label>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control calculated-field" id="summaryDryerOutput" readonly>
-                                                        <span class="input-group-text">MT</span>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">VRM Production</label>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control calculated-field" id="summaryVrmProduction" readonly>
-                                                        <span class="input-group-text">MT</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Dryer TPH</label>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control calculated-field" id="summaryDryerTph" readonly>
-                                                        <span class="input-group-text">MT/Hr</span>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">VRM TPH</label>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control calculated-field" id="summaryVrmTph" readonly>
-                                                        <span class="input-group-text">MT/Hr</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <i class="bi bi-cash-stack"></i> Cost Summary
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Mixing Cost/MT</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text">₹</span>
-                                                        <input type="text" class="form-control calculated-field" id="summaryMixingCost" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Dryer Cost/MT</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text">₹</span>
-                                                        <input type="text" class="form-control calculated-field" id="summaryDryerCost" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">VRM Cost/MT</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text">₹</span>
-                                                        <input type="text" class="form-control calculated-field" id="summaryVrmCost" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">EB Cost/MT</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text">₹</span>
-                                                        <input type="text" class="form-control calculated-field" id="summaryEbCost" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header bg-info text-white">
-                                <i class="bi bi-calculator"></i> Total Production Cost
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Total Production Cost/MT</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text">₹</span>
-                                                <input type="text" class="form-control calculated-field" id="totalProductionCostMt" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Total Production Cost/KG</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text">₹</span>
-                                                <input type="text" class="form-control calculated-field" id="totalProductionCostKg" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-buttons text-end">
-                    <button type="button" class="btn btn-danger me-2">
-                        <i class="bi bi-x-circle"></i> Cancel
-                    </button>
-                    <button type="button" class="btn btn-secondary me-2">
-                        <i class="bi bi-save"></i> Save Draft
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-circle"></i> Submit Report
-                    </button>
-                </div>
-            </form>
+        
+        <div class="report-title">DAY Shift Production Report</div>
+        
+        <div class="report-date">
+            <label for="report-date">Date: </label>
+            <input type="date" id="report-date" style="border: 1px solid #ddd; padding: 3px;">
+            <label for="shift-name" style="margin-left: 15px;">Shift Name: </label>
+            <select id="shift-name" style="border: 1px solid #ddd; padding: 3px;">
+                <option>Day Shift</option>
+                <option>Night Shift</option>
+            </select>
+        </div>
+        
+        <table class="excel-table">
+            <tr>
+                <th colspan="2">QC / Chemist Responsibility :</th>
+                <th>SGX Raw : (PSD / SIO2)</th>
+                <th>RH- (PSD / SIO2)</th>
+                <th>Day Shift</th>
+                <th>Accelerator- (PSD / SIO2)</th>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="text" id="qc-chemist" value="Rabindra" style="width: 100%; border: none;"></td>
+                <td class="input-cell"><input type="number" step="0.01" value="144.3"></td>
+                <td class="input-cell"><input type="number" step="0.01" value="50.16"></td>
+                <td class="input-cell"><input type="number" step="0.01" value="52.16"></td>
+                <td class="input-cell"><input type="number" step="0.01"></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td>D-80</td>
+                <td>D-80</td>
+                <td>D-80</td>
+                <td>D-80</td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td class="input-cell"><input type="number" step="0.01" value="205.7"></td>
+                <td class="input-cell"><input type="number" step="0.01" value="62.96"></td>
+                <td class="input-cell"><input type="number" step="0.01" value="67.74"></td>
+                <td class="input-cell"><input type="number" step="0.01"></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td>D-90</td>
+                <td>D-90</td>
+                <td>D-90</td>
+                <td>D-90</td>
+            </tr>
+            <tr>
+                <td colspan="2">Raw Material Opening Stock</td>
+                <td class="input-cell"><input type="number" step="0.1" value="0"></td>
+                <td class="input-cell"><input type="number" step="0.1" value="0"></td>
+                <td class="input-cell"><input type="number" step="0.1" value="4.6"></td>
+                <td class="input-cell"><input type="number" step="0.1"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Mixing Material Opening Stock</td>
+                <td class="input-cell"><input type="number" step="0.1" value="0"></td>
+                <td class="input-cell"><input type="number" step="0.1" value="0"></td>
+                <td class="input-cell"><input type="number" step="0.1" value="0"></td>
+                <td class="input-cell"><input type="number" step="0.1" value="0"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Mixing Responsibility :</td>
+                <td colspan="4" class="input-cell"><input type="text" value="Chitaranjan Bag"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Mixing & Feeding in MT:-</td>
+                <td class="input-cell"><input type="number" step="0.1" value="0"></td>
+                <td>Mixing Ratio:-</td>
+                <td class="input-cell"><input type="text" value="0.00.00"></td>
+                <td>JCB running hrs:-</td>
+                <td class="input-cell"><input type="number" step="0.1" value="4"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Mixing Cost Per Mt :</td>
+                <td class="input-cell"><input type="number" step="0.01" value="0.00"></td>
+                <td>JCB Cost:-</td>
+                <td class="input-cell"><input type="number" step="0.01" value="3256.64"></td>
+                <td>NMR Cost :-</td>
+                <td class="input-cell"><input type="number" step="0.01" value="7700.00"></td>
+                <td>LDO Cost</td>
+                <td class="input-cell"><input type="number" step="0.01" value="0.00"></td>
+            </tr>
+        </table>
+        
+        <table class="excel-table">
+            <tr>
+                <th colspan="2">QC / Chemist Responsibility :</th>
+                <th>Ground Mixing:- (PSD / SIO2)</th>
+                <th>Dryer Output:- (PSD)</th>
+                <th>Silo Output :- (PSD)</th>
+                <th>VRM output:- (PSD / SIO2)</th>
+            </tr>
+            <tr>
+                <td colspan="2" class="input-cell"><input type="text" value="Soumya Ranjan , Suraj Pal"></td>
+                <td class="input-cell"><input type="number" step="0.01"></td>
+                <td class="input-cell"><input type="number" step="0.01"></td>
+                <td class="input-cell"><input type="number" step="0.01"></td>
+                <td class="input-cell"><input type="number" step="0.01"></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td>D-80</td>
+                <td>D-80</td>
+                <td>D-80</td>
+                <td>D-80</td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td class="input-cell"><input type="number" step="0.01"></td>
+                <td class="input-cell"><input type="number" step="0.01"></td>
+                <td class="input-cell"><input type="number" step="0.01"></td>
+                <td class="input-cell"><input type="number" step="0.01"></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td>D-90</td>
+                <td>D-90</td>
+                <td>D-90</td>
+                <td>D-90</td>
+            </tr>
+        </table>
+        
+        <div class="section-divider"></div>
+        
+        <table class="excel-table">
+            <tr>
+                <th colspan="4">Operation Responsibility</th>
+            </tr>
+            <tr>
+                <td colspan="4" class="input-cell"><input type="text" value="Names: Mr. Sourabh Lad"></td>
+            </tr>
+            <tr>
+                <th colspan="2">DRYER OPERATIONS</th>
+                <th>Dryer Start Time:-</th>
+                <th class="input-cell"><input type="time"></th>
+                <th>Dryer End Time:-</th>
+                <th class="input-cell"><input type="time"></th>
+            </tr>
+            <tr>
+                <td>Dryer Output In Mt:-</td>
+                <td class="input-cell"><input type="number" step="0.1" value="0"></td>
+                <td>Dryer Running Time:-</td>
+                <td class="input-cell calculated-cell"></td>
+                <td>Dryer TPH:-</td>
+                <td class="input-cell calculated-cell"></td>
+            </tr>
+            <tr>
+                <td>LDO Opening Stock :-</td>
+                <td class="input-cell"><input type="number" step="0.1"></td>
+                <td>LDO Closing Stock :-</td>
+                <td class="input-cell"><input type="number" step="0.1"></td>
+                <td>LDO Consume :-</td>
+                <td class="input-cell calculated-cell"></td>
+            </tr>
+            <tr>
+                <td>Silo Stock:-</td>
+                <td class="input-cell"><input type="number" step="0.1"></td>
+                <td>NMR :-</td>
+                <td class="input-cell"><input type="number" value="11"></td>
+                <td>JCB Running Hrs :-</td>
+                <td class="input-cell"><input type="number" step="0.1" value="4"></td>
+            </tr>
+            <tr>
+                <td>Dryer Cost</td>
+                <td class="input-cell calculated-cell">#DIV/01</td>
+            </tr>
+        </table>
+        
+        <div class="section-divider"></div>
+        
+        <table class="excel-table">
+            <tr>
+                <th colspan="6">VRM OPERATIONS</th>
+            </tr>
+            <tr>
+                <td>Product Name:-</td>
+                <td colspan="5" class="input-cell"><input type="text" value="MicroSilica AMS"></td>
+            </tr>
+            <tr>
+                <td>VRM Start Time</td>
+                <td class="input-cell"><input type="time"></td>
+                <td>VRM End Time :-</td>
+                <td class="input-cell"><input type="time"></td>
+            </tr>
+            <tr>
+                <td>VRM Production :-</td>
+                <td class="input-cell"><input type="number" step="0.1" value="0"></td>
+                <td>VRM running Hrs:-</td>
+                <td class="input-cell calculated-cell"></td>
+                <td>VRM TPH</td>
+                <td class="input-cell calculated-cell"></td>
+            </tr>
+            <tr>
+                <td>EB start :</td>
+                <td class="input-cell"><input type="number" value="8124"></td>
+                <td>EB closing :-</td>
+                <td class="input-cell"><input type="number" value="8142"></td>
+                <td>Units consums :-</td>
+                <td class="input-cell"><input type="number" value="72"></td>
+            </tr>
+            <tr>
+                <td>NMR</td>
+                <td class="input-cell"><input type="number" value="11"></td>
+                <td>NMR Cost</td>
+                <td class="input-cell"><input type="number" step="0.01" value="7700.00"></td>
+            </tr>
+            <tr>
+                <td>EB Cost /MT:-</td>
+                <td class="input-cell"><input type="number" step="0.01" value="884.16"></td>
+                <td>Beg Cost</td>
+                <td class="input-cell"><input type="number" step="0.01" value="0.00"></td>
+            </tr>
+            <tr>
+                <td>Forklift Cost /MT</td>
+                <td class="input-cell"><input type="number" step="0.01" value="2115.40"></td>
+                <td>Spare Cost</td>
+                <td class="input-cell"><input type="number" step="0.01" value="0.00"></td>
+            </tr>
+            <tr>
+                <td>Bags Unloading Cost</td>
+                <td class="input-cell"><input type="number" step="0.01" value="0"></td>
+                <td>Bags Loading Cost</td>
+                <td class="input-cell"><input type="number" step="0.01" value="8800.00"></td>
+            </tr>
+            <tr>
+                <td>VRM Cost / Mt</td>
+                <td colspan="5" class="calculated-cell">#DIV/01</td>
+            </tr>
+            <tr>
+                <td>Total Production Cost /MT</td>
+                <td class="calculated-cell">#DIV/01</td>
+                <td>Total Production Cost /KG:-</td>
+                <td class="calculated-cell">#DIV/01</td>
+            </tr>
+        </table>
+        
+        <div class="form-actions">
+            <button class="btn btn-save">Save Report</button>
+            <button class="btn btn-reset">Reset Form</button>
+            <button class="btn btn-print">Print Report</button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Update current date and time
         function updateDateTime() {
             const now = new Date();
-            document.getElementById('current-date').textContent = now.toLocaleDateString('en-IN');
-            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-IN');
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('current-date-time').textContent = now.toLocaleDateString('en-US', options);
         }
         
         // Set initial date and update every second
@@ -719,12 +399,12 @@
         setInterval(updateDateTime, 1000);
         
         // Set default date to today
-        document.getElementById('reportDate').valueAsDate = new Date();
+        document.getElementById('report-date').valueAsDate = new Date();
         
         // Calculate time difference between start and end
-        function calculateTimeDifference(startId, endId, resultId) {
-            const startTime = document.getElementById(startId).value;
-            const endTime = document.getElementById(endId).value;
+        function calculateTimeDifference(startInput, endInput, resultCell) {
+            const startTime = startInput.value;
+            const endTime = endInput.value;
             
             if (startTime && endTime) {
                 const start = new Date(`2000-01-01T${startTime}`);
@@ -735,7 +415,7 @@
                     const diffHrs = Math.floor(diffMs / 3600000);
                     const diffMins = Math.floor((diffMs % 3600000) / 60000);
                     
-                    document.getElementById(resultId).value = `${diffHrs} hrs ${diffMins} mins`;
+                    resultCell.textContent = `${diffHrs} hrs ${diffMins} mins`;
                     return diffHrs + (diffMins / 60);
                 }
             }
@@ -743,122 +423,81 @@
         }
         
         // Calculate TPH (Tons Per Hour)
-        function calculateTPH(productionId, hours, resultId) {
-            const production = parseFloat(document.getElementById(productionId).value) || 0;
+        function calculateTPH(productionInput, hours, resultCell) {
+            const production = parseFloat(productionInput.value) || 0;
             const tph = hours > 0 ? (production / hours).toFixed(2) : 0;
-            document.getElementById(resultId).value = tph;
+            resultCell.textContent = tph;
             return parseFloat(tph);
         }
         
         // Calculate consumption
-        function calculateConsumption(openingId, closingId, resultId) {
-            const opening = parseFloat(document.getElementById(openingId).value) || 0;
-            const closing = parseFloat(document.getElementById(closingId).value) || 0;
+        function calculateConsumption(openingInput, closingInput, resultCell) {
+            const opening = parseFloat(openingInput.value) || 0;
+            const closing = parseFloat(closingInput.value) || 0;
             const consumed = opening - closing;
-            document.getElementById(resultId).value = consumed > 0 ? consumed.toFixed(2) : 0;
+            resultCell.textContent = consumed > 0 ? consumed.toFixed(2) : '0.00';
             return consumed > 0 ? consumed : 0;
         }
         
-        // Calculate VRM cost per MT
-        function calculateVrmCost() {
-            const production = parseFloat(document.getElementById('vrmProduction').value) || 0;
-            const ebCost = parseFloat(document.getElementById('ebCost').value) || 0;
-            const forkliftCost = parseFloat(document.getElementById('forkliftCost').value) || 0;
-            const bagsLoadingCost = parseFloat(document.getElementById('bagsLoadingCost').value) || 0;
-            const nmrVrmCost = parseFloat(document.getElementById('nmrVrmCost').value) || 0;
-            const spareCost = parseFloat(document.getElementById('spareCost').value) || 0;
+        // Initialize event listeners for calculations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all input elements that need calculations
+            const dryerStart = document.querySelector('input[type="time"]:nth-of-type(1)');
+            const dryerEnd = document.querySelector('input[type="time"]:nth-of-type(2)');
+            const dryerRunningTime = document.querySelectorAll('.calculated-cell')[0];
+            const dryerOutput = document.querySelector('input[type="number"][value="0"]');
+            const dryerTph = document.querySelectorAll('.calculated-cell')[1];
             
-            if (production > 0) {
-                const totalCost = ebCost + forkliftCost + (bagsLoadingCost / production) + (nmrVrmCost / production) + (spareCost / production);
-                document.getElementById('vrmCost').value = totalCost.toFixed(2);
-                return totalCost;
-            }
-            document.getElementById('vrmCost').value = '0.00';
-            return 0;
-        }
-        
-        // Calculate total production costs
-        function calculateTotalCosts() {
-            const mixingCost = parseFloat(document.getElementById('mixingCostPerMt').value) || 0;
-            const dryerCost = parseFloat(document.getElementById('dryerCost').value) || 0;
-            const vrmCost = parseFloat(document.getElementById('vrmCost').value) || 0;
-            const production = parseFloat(document.getElementById('vrmProduction').value) || 0;
+            const vrmStart = document.querySelector('input[type="time"]:nth-of-type(3)');
+            const vrmEnd = document.querySelector('input[type="time"]:nth-of-type(4)');
+            const vrmRunningHrs = document.querySelectorAll('.calculated-cell')[2];
+            const vrmProduction = document.querySelector('input[type="number"][value="0"]:nth-of-type(12)');
+            const vrmTph = document.querySelectorAll('.calculated-cell')[3];
             
-            if (production > 0) {
-                const totalCostMt = mixingCost + dryerCost + vrmCost;
-                document.getElementById('totalProductionCostMt').value = totalCostMt.toFixed(2);
-                document.getElementById('totalProductionCostKg').value = (totalCostMt / 1000).toFixed(4);
-            } else {
-                document.getElementById('totalProductionCostMt').value = '0.00';
-                document.getElementById('totalProductionCostKg').value = '0.00';
+            const ldoOpening = document.querySelector('input[type="number"]:nth-of-type(14)');
+            const ldoClosing = document.querySelector('input[type="number"]:nth-of-type(15)');
+            const ldoConsume = document.querySelectorAll('.calculated-cell')[4];
+            
+            // Add event listeners
+            if (dryerStart && dryerEnd) {
+                dryerStart.addEventListener('change', function() {
+                    const hours = calculateTimeDifference(dryerStart, dryerEnd, dryerRunningTime);
+                    calculateTPH(dryerOutput, hours, dryerTph);
+                });
+                
+                dryerEnd.addEventListener('change', function() {
+                    const hours = calculateTimeDifference(dryerStart, dryerEnd, dryerRunningTime);
+                    calculateTPH(dryerOutput, hours, dryerTph);
+                });
             }
-        }
-        
-        // Update summary fields
-        function updateSummary() {
-            document.getElementById('summaryDryerOutput').value = document.getElementById('dryerOutput').value || '0';
-            document.getElementById('summaryVrmProduction').value = document.getElementById('vrmProduction').value || '0';
-            document.getElementById('summaryDryerTph').value = document.getElementById('dryerTph').value || '0';
-            document.getElementById('summaryVrmTph').value = document.getElementById('vrmTph').value || '0';
-            document.getElementById('summaryMixingCost').value = document.getElementById('mixingCostPerMt').value || '0.00';
-            document.getElementById('summaryDryerCost').value = document.getElementById('dryerCost').value || '0.00';
-            document.getElementById('summaryVrmCost').value = document.getElementById('vrmCost').value || '0.00';
-            document.getElementById('summaryEbCost').value = document.getElementById('ebCost').value || '0.00';
-        }
-        
-        // Event listeners for automatic calculations
-        document.getElementById('dryerStartTime').addEventListener('change', function() {
-            const hours = calculateTimeDifference('dryerStartTime', 'dryerEndTime', 'dryerRunningTime');
-            calculateTPH('dryerOutput', hours, 'dryerTph');
-            updateSummary();
+            
+            if (vrmStart && vrmEnd) {
+                vrmStart.addEventListener('change', function() {
+                    const hours = calculateTimeDifference(vrmStart, vrmEnd, vrmRunningHrs);
+                    calculateTPH(vrmProduction, hours, vrmTph);
+                });
+                
+                vrmEnd.addEventListener('change', function() {
+                    const hours = calculateTimeDifference(vrmStart, vrmEnd, vrmRunningHrs);
+                    calculateTPH(vrmProduction, hours, vrmTph);
+                });
+            }
+            
+            if (ldoOpening && ldoClosing) {
+                ldoOpening.addEventListener('change', function() {
+                    calculateConsumption(ldoOpening, ldoClosing, ldoConsume);
+                });
+                
+                ldoClosing.addEventListener('change', function() {
+                    calculateConsumption(ldoOpening, ldoClosing, ldoConsume);
+                });
+            }
+            
+            // Print button functionality
+            document.querySelector('.btn-print').addEventListener('click', function() {
+                window.print();
+            });
         });
-        
-        document.getElementById('dryerEndTime').addEventListener('change', function() {
-            const hours = calculateTimeDifference('dryerStartTime', 'dryerEndTime', 'dryerRunningTime');
-            calculateTPH('dryerOutput', hours, 'dryerTph');
-            updateSummary();
-        });
-        
-        document.getElementById('vrmStartTime').addEventListener('change', function() {
-            const hours = calculateTimeDifference('vrmStartTime', 'vrmEndTime', 'vrmRunningHrs');
-            calculateTPH('vrmProduction', hours, 'vrmTph');
-            updateSummary();
-        });
-        
-        document.getElementById('vrmEndTime').addEventListener('change', function() {
-            const hours = calculateTimeDifference('vrmStartTime', 'vrmEndTime', 'vrmRunningHrs');
-            calculateTPH('vrmProduction', hours, 'vrmTph');
-            updateSummary();
-        });
-        
-        document.getElementById('ldoOpeningStock').addEventListener('change', function() {
-            calculateConsumption('ldoOpeningStock', 'ldoClosingStock', 'ldoConsume');
-        });
-        
-        document.getElementById('ldoClosingStock').addEventListener('change', function() {
-            calculateConsumption('ldoOpeningStock', 'ldoClosingStock', 'ldoConsume');
-        });
-        
-        document.getElementById('vrmProduction').addEventListener('change', function() {
-            calculateVrmCost();
-            calculateTotalCosts();
-            updateSummary();
-        });
-        
-        // Form submission
-        document.getElementById('productionForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Production report submitted successfully!');
-            // In a real application, you would send the data to a server here
-        });
-        
-        // Initialize calculations
-        calculateTimeDifference('dryerStartTime', 'dryerEndTime', 'dryerRunningTime');
-        calculateTimeDifference('vrmStartTime', 'vrmEndTime', 'vrmRunningHrs');
-        calculateConsumption('ldoOpeningStock', 'ldoClosingStock', 'ldoConsume');
-        calculateVrmCost();
-        calculateTotalCosts();
-        updateSummary();
     </script>
 </body>
 </html>

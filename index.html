@@ -106,9 +106,153 @@
             font-weight: bold;
             text-align: right;
         }
+        .sgx-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .sgx-date {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .qc-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .qc-table th, .qc-table td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        .qc-table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        .qc-table .material-name {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .stock-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .stock-table th, .stock-table td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        .stock-table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        .mixing-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .mixing-table th, .mixing-table td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        .mixing-table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+<div class="sgx-header">SGX MINERALS PVT LTD - MICRO DIVISION</div>
+<div class="sgx-date">12-07-2025</div>
+
+<table class="qc-table">
+    <tr>
+        <th colspan="5">QC - (PSD / SiO2) Test Results</th>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="material-name">SGX Raw</td>
+        <td class="material-name">RH</td>
+        <td class="material-name">OPC</td>
+        <td class="material-name">Accelerator</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-80"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-80"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-80"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-80"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-90"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-90"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-90"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-90"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="material-name">Ground Mixing</td>
+        <td class="material-name">Dryer Output</td>
+        <td class="material-name">Silo Output</td>
+        <td class="material-name">VRM output</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-80"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-80"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-80"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-80"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-90"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-90"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-90"></td>
+        <td class="input-cell"><input type="number" value="0" placeholder="D-90"></td>
+    </tr>
+</table>
+
+<table class="stock-table">
+    <tr>
+        <th colspan="8">Raw Material Opening Stock</th>
+    </tr>
+    <tr>
+        <td class="material-name">SGX Raw</td>
+        <td class="input-cell"><input type="number" value="66"></td>
+        <td class="material-name">RH</td>
+        <td class="input-cell"><input type="number" value="0"></td>
+        <td class="material-name">OPC</td>
+        <td class="input-cell"><input type="number" value="21.6"></td>
+        <td class="material-name">ACC</td>
+        <td class="input-cell"><input type="number" value="5.7"></td>
+    </tr>
+</table>
+
+<table class="mixing-table">
+    <tr>
+        <th colspan="4">Mixing Details</th>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="material-name">DAY</td>
+        <td class="material-name">NIGHT</td>
+        <td class="material-name">TOTAL MIX</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="input-cell"><input type="number" value="0"></td>
+        <td class="input-cell"><input type="number" value="0"></td>
+        <td class="result-cell">0</td>
+    </tr>
+</table>
+
 <h2>Cost Calculator</h2>
 
 <div class="operations-container">

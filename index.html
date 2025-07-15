@@ -18,8 +18,15 @@
             font-weight: bold;
             margin-bottom: 5px;
         }
-        .date {
-            font-size: 14px;
+        .date-picker {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .date-picker input {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         .dashboard {
             display: flex;
@@ -174,7 +181,11 @@
 <body>
     <div class="header">
         <div class="company-name">SGX MINERALS PVT LTD - MICRO DIVISION</div>
-        <div class="date" id="current-date"></div>
+    </div>
+
+    <div class="date-picker">
+        <label for="report-date">Select Date: </label>
+        <input type="date" id="report-date" name="report-date">
     </div>
 
     <div class="dashboard">
@@ -335,12 +346,6 @@
                 <div class="section-title">VRM OPERATIONS</div>
                 <table class="operations-table">
                     <tr>
-                        <td colspan="4"><strong>Product Name</strong></td>
-                    </tr>
-                    <tr>
-                        <td colspan="4"><input type="text" value="MS-AMS" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
                         <th></th>
                         <th>DAY</th>
                         <th>NIGHT</th>
@@ -384,21 +389,23 @@
     <button class="submit-btn no-print" onclick="submitData()">Submit Data</button>
 
     <script>
-        // Display current date
-        const today = new Date();
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('current-date').textContent = today.toLocaleDateString('en-US', options);
+        // Set default date to today
+        document.getElementById('report-date').valueAsDate = new Date();
 
         function submitData() {
-            const inputs = document.querySelectorAll('input');
-            const data = [];
+            const date = document.getElementById('report-date').value;
+            const inputs = document.querySelectorAll('input:not([type="date"])');
+            const data = {
+                date: date,
+                values: []
+            };
             
             inputs.forEach(input => {
-                data.push(input.value);
+                data.values.push(input.value);
             });
             
             console.log("Submitted data:", data);
-            alert("Data submitted! Check console for details.");
+            alert(`Data for ${date} submitted! Check console for details.`);
         }
     </script>
 </body>

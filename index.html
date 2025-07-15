@@ -1,501 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cost Calculator - A4 Format</title>
     <style>
-        @page {
-            size: A4;
-            margin: 10mm;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 15px;
-            width: 100%;
-            height: 100%;
-            font-size: 12px;
-            transform: scale(0.95);
-            transform-origin: 0 0;
-            color: #333;
-            background-color: #fff;
-        }
-        @media print {
-            body {
-                transform: scale(1);
-                margin: 0;
-                padding: 0;
-            }
-            .no-print {
-                display: none !important;
-            }
-        }
-        .cost-table {
+        table {
             border-collapse: collapse;
             width: 100%;
-            margin-bottom: 10px;
+            margin: 20px 0;
         }
-        .cost-table th, .cost-table td {
-            border: 1px solid #999;
-            padding: 6px 8px;
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
             text-align: center;
         }
-        .cost-table th {
-            background-color: #4CAF50;
-            color: white;
+        th {
+            background-color: #f2f2f2;
             font-weight: bold;
         }
-        .cost-table tr:nth-child(even) {
-            background-color: #f8f8f8;
-        }
-        .total-row {
+        .row-header {
+            background-color: #f2f2f2;
             font-weight: bold;
-            background-color: #d9edf7 !important;
-        }
-        .currency {
             text-align: right;
+            padding-right: 15px;
         }
         input {
-            width: 100%;
-            padding: 3px;
-            box-sizing: border-box;
+            width: 80%;
+            padding: 5px;
+            text-align: center;
             border: 1px solid #ccc;
-            text-align: center;
-            font-size: 11px;
-            background-color: #ffffe0;
-        }
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .calculate-btn, .print-btn {
-            padding: 8px 15px;
-            border: none;
-            cursor: pointer;
-            margin-top: 8px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .calculate-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .print-btn {
-            background-color: #2196F3;
-            color: white;
-        }
-        .calculate-btn:hover {
-            background-color: #45a049;
-        }
-        .print-btn:hover {
-            background-color: #0b7dda;
-        }
-        .operations-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .operations-table {
-            border-collapse: collapse;
-            width: 48%;
-            margin-bottom: 10px;
-            font-size: 11px;
-        }
-        .operations-table th, .operations-table td {
-            border: 1px solid #999;
-            padding: 6px 8px;
-            text-align: center;
-        }
-        .operations-table th {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
+            border-radius: 4px;
         }
         .section-title {
+            background-color: #e6e6e6;
             font-weight: bold;
             text-align: center;
-            background-color: #d9edf7;
-        }
-        .header-row {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .input-cell {
-            background-color: #ffffe0;
-        }
-        .result-cell {
-            background-color: #d9edf7;
-            font-weight: bold;
-        }
-        .div-error {
-            color: #d9534f;
-            font-style: italic;
-        }
-        .cost-label {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        .cost-value {
-            background-color: #ffffe0;
-            text-align: center;
-        }
-        .mt-cost {
-            background-color: #d9edf7;
-            font-weight: bold;
-            text-align: center;
-        }
-        .sgx-header {
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: #2c3e50;
-        }
-        .sgx-date {
-            text-align: right;
-            margin-bottom: 15px;
-            font-size: 11px;
-            color: #555;
-        }
-        .qc-table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 10px;
-            font-size: 11px;
-        }
-        .qc-table th, .qc-table td {
-            border: 1px solid #999;
-            padding: 6px 8px;
-            text-align: center;
-        }
-        .qc-table th {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
-        }
-        .qc-table .material-name {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        .stock-table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 10px;
-            font-size: 11px;
-        }
-        .stock-table th, .stock-table td {
-            border: 1px solid #999;
-            padding: 6px 8px;
-            text-align: center;
-        }
-        .stock-table th {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
-        }
-        .mixing-table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 10px;
-            font-size: 11px;
-        }
-        .mixing-table th, .mixing-table td {
-            border: 1px solid #999;
-            padding: 6px 8px;
-            text-align: center;
-        }
-        .mixing-table th {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
-        }
-        h2 {
-            font-size: 14px;
-            margin: 10px 0;
-            color: #2c3e50;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
         }
     </style>
 </head>
 <body>
-<div class="sgx-header">SGX MINERALS PVT LTD - MICRO DIVISION</div>
-<div class="sgx-date">12-07-2025</div>
-
-<table class="qc-table">
-    <tr>
-        <th colspan="4">QC - (PSD / SiO2) Test Results</th>
-    </tr>
-    <tr>
-        <td class="material-name">Test</td>
-        <td class="material-name">SGX Raw</td>
-        <td class="material-name">RH</td>
-        <td class="material-name">OPC</td>
-    </tr>
-    <tr>
-        <td class="material-name">D-80</td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="input-cell"><input type="number" value="0"></td>
-    </tr>
-    <tr>
-        <td class="material-name">D-90</td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="input-cell"><input type="number" value="0"></td>
-    </tr>
-    <tr>
-        <td class="material-name">Test</td>
-        <td class="material-name">Ground Mixing</td>
-        <td class="material-name">Dryer Output</td>
-        <td class="material-name">VRM output</td>
-    </tr>
-    <tr>
-        <td class="material-name">D-80</td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="input-cell"><input type="number" value="0"></td>
-    </tr>
-    <tr>
-        <td class="material-name">D-90</td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="input-cell"><input type="number" value="0"></td>
-    </tr>
-</table>
-
-<table class="stock-table">
-    <tr>
-        <th colspan="8">Raw Material Opening Stock</th>
-    </tr>
-    <tr>
-        <td class="material-name">SGX Raw</td>
-        <td class="input-cell"><input type="number" value="66"></td>
-        <td class="material-name">RH</td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="material-name">OPC</td>
-        <td class="input-cell"><input type="number" value="21.6"></td>
-        <td class="material-name">ACC</td>
-        <td class="input-cell"><input type="number" value="5.7"></td>
-    </tr>
-</table>
-
-<table class="mixing-table">
-    <tr>
-        <th colspan="4">Mixing Details</th>
-    </tr>
-    <tr>
-        <td></td>
-        <td class="material-name">DAY</td>
-        <td class="material-name">NIGHT</td>
-        <td class="material-name">TOTAL MIX</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="input-cell"><input type="number" value="0"></td>
-        <td class="result-cell">0</td>
-    </tr>
-</table>
-
-<h2>Cost Calculator</h2>
-
-<div class="operations-container">
-    <table class="operations-table">
-        <tr class="header-row">
-            <th colspan="4">DRYER OPERATIONS</th>
-        </tr>
-        <tr>
-            <td></td>
-            <td>DAY</td>
-            <td>NIGHT</td>
-            <td>TOTAL</td>
-        </tr>
-        <tr>
-            <td>RUNNING Hrs</td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="result-cell">0</td>
-        </tr>
-        <tr>
-            <td>PRODUCTION</td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="result-cell">0</td>
-        </tr>
-        <tr>
-            <td>TPH</td>
-            <td class="result-cell">0</td>
-            <td class="result-cell">0</td>
-            <td class="result-cell">0</td>
-        </tr>
-        <tr>
-            <td>LDO</td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="result-cell">0</td>
-        </tr>
-        <tr>
-            <td>JCB</td>
-            <td class="input-cell"><input type="number" value="3"></td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="result-cell">3.2</td>
-        </tr>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>SGX</th>
+                <th>RH</th>
+                <th>OPC</th>
+                <th>ACCLTR</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="row-header">D-80</td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td class="row-header">D-90</td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="section-title">Production Output</td>
+            </tr>
+            <tr>
+                <th></th>
+                <th>Ground Mixing</th>
+                <th>VRM Output</th>
+                <th>Silo Output</th>
+                <th>Dryer Output</th>
+            </tr>
+            <tr>
+                <td class="row-header">D-80</td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td class="row-header">D-90</td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+            </tr>
+        </tbody>
     </table>
 
-    <table class="operations-table">
-        <tr class="header-row">
-            <th colspan="4">VRM OPERATIONS</th>
-        </tr>
-        <tr>
-            <td colspan="2">Product Name</td>
-            <td colspan="2">MS-AMS</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>DAY</td>
-            <td>NIGHT</td>
-            <td>TOTAL</td>
-        </tr>
-        <tr>
-            <td>RUNNING Hrs</td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="result-cell">0</td>
-        </tr>
-        <tr>
-            <td>PRODUCTION</td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="input-cell"><input type="number" value="0"></td>
-            <td class="result-cell">0</td>
-        </tr>
-        <tr>
-            <td>TPH</td>
-            <td class="result-cell">0</td>
-            <td class="result-cell">0</td>
-            <td class="result-cell">0</td>
-        </tr>
-        <tr>
-            <td>EB</td>
-            <td class="input-cell"><input type="number" value="84"></td>
-            <td class="input-cell"><input type="number" value="56"></td>
-            <td class="result-cell">140</td>
-        </tr>
-        <tr>
-            <td>NMR</td>
-            <td class="input-cell"><input type="number" value="10"></td>
-            <td class="input-cell"><input type="number" value="2"></td>
-            <td class="result-cell">12</td>
-        </tr>
-    </table>
-</div>
+    <button onclick="submitData()">Submit Data</button>
 
-<table class="cost-table">
-    <tr class="header-row">
-        <th colspan="2">COST ITEMS</th>
-        <th colspan="2">PER METRIC TON</th>
-    </tr>
-    <tr>
-        <td class="cost-label">MIXING COST</td>
-        <td class="cost-value"><input type="number" id="mixing" value="0.00" step="0.01"></td>
-        <td class="cost-label">DRYER COST /MT</td>
-        <td class="mt-cost"><input type="number" id="dryer" value="2492.56" step="0.01"></td>
-    </tr>
-    <tr>
-        <td class="cost-label">NMR COST</td>
-        <td class="cost-value"><input type="number" id="nmr" value="8400.00" step="0.01"></td>
-        <td rowspan="6" class="cost-label">VRM COST /MT</td>
-        <td rowspan="6" class="mt-cost"><input type="number" id="vrm" value="16199.97" step="0.01"></td>
-    </tr>
-    <tr>
-        <td class="cost-label">EB COST</td>
-        <td class="cost-value"><input type="number" id="eb" value="1719.20" step="0.01"></td>
-    </tr>
-    <tr>
-        <td class="cost-label">Forklift cost</td>
-        <td class="cost-value"><input type="number" id="forklift" value="4230.77" step="0.01"></td>
-    </tr>
-    <tr>
-        <td class="cost-label">BAG COST</td>
-        <td class="cost-value"><input type="number" id="bag" value="0.00" step="0.01"></td>
-    </tr>
-    <tr>
-        <td class="cost-label">LDO COST</td>
-        <td class="cost-value"><input type="number" id="ldo" value="0.00" step="0.01"></td>
-    </tr>
-    <tr>
-        <td class="cost-label">JCB operator</td>
-        <td class="cost-value"><input type="number" id="jcb_op" value="950.00" step="0.01"></td>
-    </tr>
-    <tr>
-        <td class="cost-label">JCB fuel cost</td>
-        <td class="cost-value"><input type="number" id="jcb_fuel" value="1542.56" step="0.01"></td>
-        <td class="total-row">TOTAL COST/MT</td>
-        <td class="total-row"><span id="total_mt">18,692.53</span></td>
-    </tr>
-    <tr>
-        <td class="cost-label">Spare Part cost</td>
-        <td class="cost-value"><input type="number" id="spare" value="0.00" step="0.01"></td>
-        <td class="total-row">Total COST/KG</td>
-        <td class="total-row"><span id="total_kg">18.69</span></td>
-    </tr>
-    <tr>
-        <td class="cost-label">Maintenance Cost & misc. cost</td>
-        <td class="cost-value"><input type="number" id="maint" value="1850.00" step="0.01"></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td class="cost-label">Vehicle Loading cost</td>
-        <td class="cost-value"><input type="number" id="loading" value="0.00" step="0.01"></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td class="cost-label">Vehicle Unloading Cost</td>
-        <td class="cost-value"><input type="number" id="unloading" value="0.00" step="0.01"></td>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
-
-<div class="button-container">
-    <button class="calculate-btn" onclick="calculateTotals()">Calculate Totals</button>
-    <button class="print-btn no-print" onclick="window.print()">Print Document</button>
-</div>
-
-<script>
-    function calculateTotals() {
-        // Get all input values
-        const dryer = parseFloat(document.getElementById('dryer').value) || 0;
-        const vrm = parseFloat(document.getElementById('vrm').value) || 0;
-        
-        // Calculate totals
-        const totalMT = dryer + vrm;
-        const totalKG = totalMT / 1000;
-        
-        // Format numbers with Indian comma style
-        const formatNumber = (num) => {
-            return num.toFixed(2).replace(/(\d)(?=(\d{2})+\d\.)/g, '$1,');
-        };
-        
-        // Display results
-        document.getElementById('total_mt').textContent = formatNumber(totalMT);
-        document.getElementById('total_kg').textContent = formatNumber(totalKG);
-    }
-    
-    // Initial calculation
-    calculateTotals();
-    
-    // Add event listeners to all inputs for auto-calculation
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => {
-        input.addEventListener('change', calculateTotals);
-    });
-</script>
-
+    <script>
+        function submitData() {
+            const inputs = document.querySelectorAll('input');
+            const data = [];
+            
+            inputs.forEach(input => {
+                data.push(input.value);
+            });
+            
+            console.log("Submitted data:", data);
+            alert("Data submitted! Check console for details.");
+        }
+    </script>
 </body>
 </html>

@@ -104,6 +104,35 @@
         .row-item {
             flex: 1;
         }
+        .horizontal-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .horizontal-section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            flex: 1;
+        }
+        .horizontal-table {
+            display: flex;
+            flex-direction: column;
+        }
+        .horizontal-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .horizontal-cell {
+            flex: 1;
+            text-align: center;
+        }
+        .horizontal-header {
+            font-weight: bold;
+            background-color: #f2f2f2;
+            padding: 8px;
+        }
     </style>
 </head>
 <body>
@@ -113,140 +142,141 @@
     </div>
 
     <div class="dashboard">
-        <!-- Raw Materials Section -->
-        <div class="section">
-            <div class="section-title">Raw Materials</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>SGX</th>
-                        <th>RH</th>
-                        <th>OPC</th>
-                        <th>ACCLTR</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>D-80</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>D-90</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Production Output Section -->
-        <div class="section">
-            <div class="section-title">Production Output</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Ground Mixing</th>
-                        <th>VRM Output</th>
-                        <th>Silo Output</th>
-                        <th>Dryer Output</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>D-80</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>D-90</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Raw Material Opening Stock -->
-        <div class="section">
-            <div class="section-title">Opening Stock</div>
-            <div class="inline-form">
-                <span class="form-label">SGX Raw</span>
-                <input type="text" value="66">
-            </div>
-            <div class="inline-form">
-                <span class="form-label">RH</span>
-                <input type="text" value="0">
-            </div>
-            <div class="inline-form">
-                <span class="form-label">OPC</span>
-                <input type="text" value="21.6">
-            </div>
-            <div class="inline-form">
-                <span class="form-label">ACC</span>
-                <input type="text" value="5.7">
-            </div>
-        </div>
-
-        <!-- New row container for FTD and Mixing Details -->
-        <div class="row-container">
-            <!-- FTD Section -->
-            <div class="section row-item">
-                <div class="section-title">FTD Details</div>
-                <div class="inline-form">
-                    <span class="form-label">FTD Received</span>
-                    <input type="text">
+        <!-- Combined Horizontal Section -->
+        <div class="horizontal-container">
+            <!-- Opening Stock -->
+            <div class="horizontal-section">
+                <div class="section-title">Opening Stock</div>
+                <div class="horizontal-row">
+                    <div class="horizontal-cell">
+                        <div class="form-label">SGX Raw</div>
+                        <input type="text" value="66">
+                    </div>
+                    <div class="horizontal-cell">
+                        <div class="form-label">RH</div>
+                        <input type="text" value="0">
+                    </div>
+                    <div class="horizontal-cell">
+                        <div class="form-label">OPC</div>
+                        <input type="text" value="21.6">
+                    </div>
+                    <div class="horizontal-cell">
+                        <div class="form-label">ACC</div>
+                        <input type="text" value="5.7">
+                    </div>
                 </div>
-                <div class="inline-form">
-                    <span class="form-label">FTD Dispatch</span>
-                    <input type="text">
+            </div>
+
+            <!-- FTD Details -->
+            <div class="horizontal-section">
+                <div class="section-title">FTD Details</div>
+                <div class="horizontal-row">
+                    <div class="horizontal-cell">
+                        <div class="form-label">FTD Received</div>
+                        <input type="text">
+                    </div>
+                    <div class="horizontal-cell">
+                        <div class="form-label">FTD Dispatch</div>
+                        <input type="text">
+                    </div>
                 </div>
             </div>
 
             <!-- Mixing Details -->
-            <div class="section row-item">
+            <div class="horizontal-section">
                 <div class="section-title">Mixing Details</div>
-                <div class="inline-form">
-                    <span class="form-label">DAY</span>
-                    <input type="text">
+                <div class="horizontal-row">
+                    <div class="horizontal-cell">
+                        <div class="form-label">DAY</div>
+                        <input type="text">
+                    </div>
+                    <div class="horizontal-cell">
+                        <div class="form-label">NIGHT</div>
+                        <input type="text">
+                    </div>
+                    <div class="horizontal-cell">
+                        <div class="form-label">TOTAL MIX</div>
+                        <input type="text" value="0">
+                    </div>
                 </div>
-                <div class="inline-form">
-                    <span class="form-label">NIGHT</span>
-                    <input type="text">
+            </div>
+        </div>
+
+        <!-- Raw Materials Section - Horizontal D-80/D-90 -->
+        <div class="section">
+            <div class="section-title">Raw Materials</div>
+            <div class="horizontal-table">
+                <div class="horizontal-row horizontal-header">
+                    <div class="horizontal-cell">Product</div>
+                    <div class="horizontal-cell">SGX</div>
+                    <div class="horizontal-cell">RH</div>
+                    <div class="horizontal-cell">OPC</div>
+                    <div class="horizontal-cell">ACCLTR</div>
                 </div>
-                <div class="inline-form">
-                    <span class="form-label">TOTAL MIX</span>
-                    <input type="text" value="0">
+                <div class="horizontal-row">
+                    <div class="horizontal-cell">D-80</div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
                 </div>
-                
-                <!-- Cost Details -->
-                <div class="cost-details">
-                    <div class="cost-row">
-                        <span class="cost-label">DRYER COST /MT</span>
-                        <span class="cost-value">₹ 3,071.02</span>
-                    </div>
-                    <div class="cost-row">
-                        <span class="cost-label">VRM COST /MT</span>
-                        <span class="cost-value">₹ 16,612.33</span>
-                    </div>
-                    <div class="cost-row">
-                        <span class="cost-label">TOTAL COST/MT</span>
-                        <span class="cost-value">₹ 19,683.35</span>
-                    </div>
-                    <div class="cost-row">
-                        <span class="cost-label">Total COST/KG</span>
-                        <span class="cost-value">₹ 19.68</span>
-                    </div>
+                <div class="horizontal-row">
+                    <div class="horizontal-cell">D-90</div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Production Output Section - Horizontal D-80/D-90 -->
+        <div class="section">
+            <div class="section-title">Production Output</div>
+            <div class="horizontal-table">
+                <div class="horizontal-row horizontal-header">
+                    <div class="horizontal-cell">Product</div>
+                    <div class="horizontal-cell">Ground Mixing</div>
+                    <div class="horizontal-cell">VRM Output</div>
+                    <div class="horizontal-cell">Silo Output</div>
+                    <div class="horizontal-cell">Dryer Output</div>
+                </div>
+                <div class="horizontal-row">
+                    <div class="horizontal-cell">D-80</div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                </div>
+                <div class="horizontal-row">
+                    <div class="horizontal-cell">D-90</div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                    <div class="horizontal-cell"><input type="text"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cost Details Section -->
+        <div class="section">
+            <div class="section-title">Cost Details</div>
+            <div class="cost-details">
+                <div class="cost-row">
+                    <span class="cost-label">DRYER COST /MT</span>
+                    <span class="cost-value">₹ 3,071.02</span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label">VRM COST /MT</span>
+                    <span class="cost-value">₹ 16,612.33</span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label">TOTAL COST/MT</span>
+                    <span class="cost-value">₹ 19,683.35</span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label">Total COST/KG</span>
+                    <span class="cost-value">₹ 19.68</span>
                 </div>
             </div>
         </div>

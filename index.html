@@ -21,10 +21,27 @@
         .date {
             font-size: 14px;
         }
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            min-width: 300px;
+        }
+        .section-title {
+            background-color: #e6e6e6;
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
         table {
             border-collapse: collapse;
             width: 100%;
-            margin-bottom: 20px;
         }
         th, td {
             border: 1px solid #ddd;
@@ -33,60 +50,23 @@
         }
         th {
             background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        .row-header {
-            background-color: #f2f2f2;
-            font-weight: bold;
-            text-align: right;
-            padding-right: 15px;
         }
         input {
-            width: 80%;
-            padding: 5px;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .section-title {
-            background-color: #e6e6e6;
-            font-weight: bold;
-            text-align: center;
-        }
-        .material-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        .material-item {
-            display: flex;
-            align-items: center;
-            margin-right: 20px;
-        }
-        .material-label {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        .material-input {
             width: 80px;
             padding: 5px;
             text-align: center;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        .mixing-details {
+        .inline-form {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .mixing-item {
-            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
             align-items: center;
-            margin-right: 20px;
         }
-        .mixing-label {
+        .form-label {
             font-weight: bold;
-            margin-right: 10px;
+            min-width: 120px;
         }
         .submit-btn {
             background-color: #4CAF50;
@@ -96,6 +76,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            margin-top: 20px;
         }
         .submit-btn:hover {
             background-color: #45a049;
@@ -108,91 +89,107 @@
         <div class="date" id="current-date"></div>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th>SGX</th>
-                <th>RH</th>
-                <th>OPC</th>
-                <th>ACCLTR</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="row-header">D-80</td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-            </tr>
-            <tr>
-                <td class="row-header">D-90</td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-            </tr>
-            <tr>
-                <td colspan="5" class="section-title">Production Output</td>
-            </tr>
-            <tr>
-                <th></th>
-                <th>Ground Mixing</th>
-                <th>VRM Output</th>
-                <th>Silo Output</th>
-                <th>Dryer Output</th>
-            </tr>
-            <tr>
-                <td class="row-header">D-80</td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-            </tr>
-            <tr>
-                <td class="row-header">D-90</td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-                <td><input type="text"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="dashboard">
+        <!-- Raw Materials Section -->
+        <div class="section">
+            <div class="section-title">Raw Materials</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>SGX</th>
+                        <th>RH</th>
+                        <th>OPC</th>
+                        <th>ACCLTR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>D-80</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>D-90</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <!-- Raw Material Opening Stock in one line -->
-    <div class="material-row">
-        <div class="material-item">
-            <span class="material-label">Raw Material Opening Stock SGX Raw</span>
-            <input type="text" class="material-input" value="66">
+        <!-- Production Output Section -->
+        <div class="section">
+            <div class="section-title">Production Output</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Ground Mixing</th>
+                        <th>VRM Output</th>
+                        <th>Silo Output</th>
+                        <th>Dryer Output</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>D-80</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>D-90</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="material-item">
-            <span class="material-label">RH</span>
-            <input type="text" class="material-input" value="0">
-        </div>
-        <div class="material-item">
-            <span class="material-label">OPC</span>
-            <input type="text" class="material-input" value="21.6">
-        </div>
-        <div class="material-item">
-            <span class="material-label">ACC</span>
-            <input type="text" class="material-input" value="5.7">
-        </div>
-    </div>
 
-    <!-- Mixing Details in one line -->
-    <div class="mixing-details">
-        <div class="mixing-item">
-            <span class="mixing-label">Mixing Details DAY</span>
-            <input type="text" class="material-input">
+        <!-- Raw Material Opening Stock -->
+        <div class="section">
+            <div class="section-title">Opening Stock</div>
+            <div class="inline-form">
+                <span class="form-label">SGX Raw</span>
+                <input type="text" value="66">
+            </div>
+            <div class="inline-form">
+                <span class="form-label">RH</span>
+                <input type="text" value="0">
+            </div>
+            <div class="inline-form">
+                <span class="form-label">OPC</span>
+                <input type="text" value="21.6">
+            </div>
+            <div class="inline-form">
+                <span class="form-label">ACC</span>
+                <input type="text" value="5.7">
+            </div>
         </div>
-        <div class="mixing-item">
-            <span class="mixing-label">NIGHT</span>
-            <input type="text" class="material-input">
-        </div>
-        <div class="mixing-item">
-            <span class="mixing-label">TOTAL MIX</span>
-            <input type="text" class="material-input" value="0">
+
+        <!-- Mixing Details -->
+        <div class="section">
+            <div class="section-title">Mixing Details</div>
+            <div class="inline-form">
+                <span class="form-label">DAY</span>
+                <input type="text">
+            </div>
+            <div class="inline-form">
+                <span class="form-label">NIGHT</span>
+                <input type="text">
+            </div>
+            <div class="inline-form">
+                <span class="form-label">TOTAL MIX</span>
+                <input type="text" value="0">
+            </div>
         </div>
     </div>
 

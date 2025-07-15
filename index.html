@@ -81,6 +81,29 @@
         .submit-btn:hover {
             background-color: #45a049;
         }
+        .cost-details {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .cost-label {
+            font-weight: bold;
+        }
+        .cost-value {
+            text-align: right;
+        }
+        .row-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+        .row-item {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -175,20 +198,56 @@
             </div>
         </div>
 
-        <!-- Mixing Details -->
-        <div class="section">
-            <div class="section-title">Mixing Details</div>
-            <div class="inline-form">
-                <span class="form-label">DAY</span>
-                <input type="text">
+        <!-- New row container for FTD and Mixing Details -->
+        <div class="row-container">
+            <!-- FTD Section -->
+            <div class="section row-item">
+                <div class="section-title">FTD Details</div>
+                <div class="inline-form">
+                    <span class="form-label">FTD Received</span>
+                    <input type="text">
+                </div>
+                <div class="inline-form">
+                    <span class="form-label">FTD Dispatch</span>
+                    <input type="text">
+                </div>
             </div>
-            <div class="inline-form">
-                <span class="form-label">NIGHT</span>
-                <input type="text">
-            </div>
-            <div class="inline-form">
-                <span class="form-label">TOTAL MIX</span>
-                <input type="text" value="0">
+
+            <!-- Mixing Details -->
+            <div class="section row-item">
+                <div class="section-title">Mixing Details</div>
+                <div class="inline-form">
+                    <span class="form-label">DAY</span>
+                    <input type="text">
+                </div>
+                <div class="inline-form">
+                    <span class="form-label">NIGHT</span>
+                    <input type="text">
+                </div>
+                <div class="inline-form">
+                    <span class="form-label">TOTAL MIX</span>
+                    <input type="text" value="0">
+                </div>
+                
+                <!-- Cost Details -->
+                <div class="cost-details">
+                    <div class="cost-row">
+                        <span class="cost-label">DRYER COST /MT</span>
+                        <span class="cost-value">₹ 3,071.02</span>
+                    </div>
+                    <div class="cost-row">
+                        <span class="cost-label">VRM COST /MT</span>
+                        <span class="cost-value">₹ 16,612.33</span>
+                    </div>
+                    <div class="cost-row">
+                        <span class="cost-label">TOTAL COST/MT</span>
+                        <span class="cost-value">₹ 19,683.35</span>
+                    </div>
+                    <div class="cost-row">
+                        <span class="cost-label">Total COST/KG</span>
+                        <span class="cost-value">₹ 19.68</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

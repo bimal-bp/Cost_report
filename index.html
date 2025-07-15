@@ -2,10 +2,29 @@
 <html>
 <head>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .header {
+            background-color: orange;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .company-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .date {
+            font-size: 14px;
+        }
         table {
             border-collapse: collapse;
             width: 100%;
-            margin: 20px 0;
+            margin-bottom: 20px;
         }
         th, td {
             border: 1px solid #ddd;
@@ -34,15 +53,61 @@
             font-weight: bold;
             text-align: center;
         }
-        .subsection-title {
-            background-color: #f0f0f0;
+        .material-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .material-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .material-label {
             font-weight: bold;
-            text-align: left;
-            padding-left: 15px;
+            margin-right: 10px;
+        }
+        .material-input {
+            width: 80px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .mixing-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .mixing-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .mixing-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <div class="company-name">SGX MINERALS PVT LTD - MICRO DIVISION</div>
+        <div class="date" id="current-date"></div>
+    </div>
+
     <table>
         <thead>
             <tr>
@@ -95,55 +160,50 @@
         </tbody>
     </table>
 
-    <!-- New Raw Material Opening Stock Section -->
-    <table>
-        <tbody>
-            <tr>
-                <td colspan="5" class="section-title">Raw Material Opening Stock</td>
-            </tr>
-            <tr>
-                <td class="subsection-title">SGX Raw</td>
-                <td><input type="text" value="66"></td>
-                <td class="subsection-title">RH</td>
-                <td><input type="text" value="0"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="subsection-title">OPC</td>
-                <td><input type="text" value="21.6"></td>
-                <td class="subsection-title">ACC</td>
-                <td><input type="text" value="5.7"></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Raw Material Opening Stock in one line -->
+    <div class="material-row">
+        <div class="material-item">
+            <span class="material-label">Raw Material Opening Stock SGX Raw</span>
+            <input type="text" class="material-input" value="66">
+        </div>
+        <div class="material-item">
+            <span class="material-label">RH</span>
+            <input type="text" class="material-input" value="0">
+        </div>
+        <div class="material-item">
+            <span class="material-label">OPC</span>
+            <input type="text" class="material-input" value="21.6">
+        </div>
+        <div class="material-item">
+            <span class="material-label">ACC</span>
+            <input type="text" class="material-input" value="5.7">
+        </div>
+    </div>
 
-    <!-- New Mixing Details Section -->
-    <table>
-        <tbody>
-            <tr>
-                <td colspan="5" class="section-title">Mixing Details</td>
-            </tr>
-            <tr>
-                <td class="subsection-title">DAY</td>
-                <td><input type="text"></td>
-                <td class="subsection-title">NIGHT</td>
-                <td><input type="text"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="subsection-title">TOTAL MIX</td>
-                <td><input type="text" value="0"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Mixing Details in one line -->
+    <div class="mixing-details">
+        <div class="mixing-item">
+            <span class="mixing-label">Mixing Details DAY</span>
+            <input type="text" class="material-input">
+        </div>
+        <div class="mixing-item">
+            <span class="mixing-label">NIGHT</span>
+            <input type="text" class="material-input">
+        </div>
+        <div class="mixing-item">
+            <span class="mixing-label">TOTAL MIX</span>
+            <input type="text" class="material-input" value="0">
+        </div>
+    </div>
 
-    <button onclick="submitData()">Submit Data</button>
+    <button class="submit-btn" onclick="submitData()">Submit Data</button>
 
     <script>
+        // Display current date
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').textContent = today.toLocaleDateString('en-US', options);
+
         function submitData() {
             const inputs = document.querySelectorAll('input');
             const data = [];

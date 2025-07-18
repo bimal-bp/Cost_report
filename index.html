@@ -828,6 +828,49 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+        
+        /* Modified styles for portrait mode */
+        @media screen {
+            body {
+                width: 100%;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            /* Adjust mixing details section to 50% width */
+            .compact-dashboard .compact-section:nth-child(3) {
+                flex: 0 0 calc(50% - 8px);
+                max-width: calc(50% - 8px);
+            }
+            
+            /* Adjust dryer and VRM operations columns */
+            .operations-table th:nth-child(2),
+            .operations-table td:nth-child(2) {
+                width: 25%;
+            }
+            
+            .operations-table th:nth-child(3),
+            .operations-table td:nth-child(3) {
+                width: 25%;
+            }
+            
+            .operations-table th:nth-child(4),
+            .operations-table td:nth-child(4) {
+                width: 50%;
+            }
+            
+            /* Make production details table more compact */
+            .combined-table th, .combined-table td {
+                padding: 8px;
+                font-size: 14px;
+            }
+            
+            .combined-table input {
+                width: 70px;
+                padding: 5px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -918,7 +961,7 @@
             </div>
         </div>
 
-        <!-- Mixing Details -->
+        <!-- Mixing Details (50% width) -->
         <div class="compact-section">
             <div class="compact-section-title">MIXING DETAILS</div>
             <table class="compact-section-table">
@@ -1094,3 +1137,45 @@
             </div>
         </div>
 
+        <!-- Additional Information Section -->
+        <div class="section">
+            <div class="section-title">ADDITIONAL INFORMATION</div>
+            <div class="remark-lines">
+                <div class="remark-line">1. <input type="text" style="width: 95%;" placeholder="Remark 1"></div>
+                <div class="remark-line">2. <input type="text" style="width: 95%;" placeholder="Remark 2"></div>
+                <div class="remark-line">3. <input type="text" style="width: 95%;" placeholder="Remark 3"></div>
+            </div>
+        </div>
+
+        <!-- Signatures Section -->
+        <div class="section">
+            <div class="section-title">SIGNATURES</div>
+            <table style="width: 100%; margin-top: 15px;">
+                <tr>
+                    <td style="text-align: center; width: 33%;">
+                        <div style="border-top: 1px solid #000; padding-top: 5px;">PREPARED BY</div>
+                    </td>
+                    <td style="text-align: center; width: 33%;">
+                        <div style="border-top: 1px solid #000; padding-top: 5px;">CHECKED BY</div>
+                    </td>
+                    <td style="text-align: center; width: 33%;">
+                        <div style="border-top: 1px solid #000; padding-top: 5px;">APPROVED BY</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="no-print">
+        <button class="submit-btn" onclick="window.print()">PRINT REPORT</button>
+    </div>
+
+    <script>
+        // Set today's date as default
+        document.getElementById('report-date').valueAsDate = new Date();
+        
+        // Auto-calculate totals where applicable
+        // You can add more JavaScript functions here for calculations
+    </script>
+</body>
+</html>

@@ -11,6 +11,7 @@
             margin: 0;
             padding: 20px;
             background-color: #f5f5f5;
+            font-size: 15px; /* Slightly increased base font size */
         }
         
         /* Common Header Styles */
@@ -103,15 +104,17 @@
             text-align: center;
             font-weight: bold;
             border-radius: 5px 5px 0 0;
+            font-size: 16px; /* Increased font size */
         }
         .compact-section-table {
             width: 100%;
             border-collapse: collapse;
         }
         .compact-section-table th, .compact-section-table td {
-            padding: 8px;
+            padding: 10px; /* Increased padding */
             border-bottom: 1px solid #ddd;
             text-align: left;
+            font-size: 14px; /* Increased font size */
         }
         .compact-section-table th {
             width: 40%;
@@ -119,11 +122,12 @@
         }
         .compact-input-field {
             width: 100%;
-            padding: 6px;
+            padding: 8px; /* Increased padding */
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
-            height: 30px;
+            height: 34px; /* Increased height */
+            font-size: 14px; /* Increased font size */
         }
         .compact-total-row {
             background-color: #ffe6cc;
@@ -142,10 +146,11 @@
         .compact-stock-header {
             background-color: orange;
             color: white;
-            padding: 5px;
+            padding: 8px; /* Increased padding */
             text-align: center;
             margin-bottom: 5px;
             border-radius: 3px;
+            font-size: 16px; /* Increased font size */
         }
         .opening-stock {
             background-color: #e6f7ff; /* Light blue for opening stock */
@@ -175,7 +180,7 @@
             background-color: #e6e6e6;
             font-weight: bold;
             text-align: center;
-            padding: 10px;
+            padding: 12px; /* Increased padding */
             margin: -18px -18px 15px -18px;
             font-size: 18px;
             border-radius: 5px 5px 0 0;
@@ -631,6 +636,7 @@
             background-color: #f2f2f2;
             padding: 8px;
             border-radius: 4px;
+            font-size: 16px; /* Increased font size */
         }
         
         .cost-summary-value {
@@ -672,6 +678,7 @@
             background-color: #f2f2f2;
             padding: 8px;
             border-radius: 4px;
+            font-size: 16px; /* Increased font size */
         }
         
         .spare-parts-table {
@@ -680,9 +687,10 @@
         }
         
         .spare-parts-table th, .spare-parts-table td {
-            padding: 8px;
+            padding: 10px; /* Increased padding */
             border-bottom: 1px solid #ddd;
             text-align: left;
+            font-size: 14px; /* Increased font size */
         }
         
         .spare-parts-table th {
@@ -696,10 +704,11 @@
         
         .spare-parts-input {
             width: 100%;
-            padding: 6px;
+            padding: 8px; /* Increased padding */
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
+            font-size: 14px; /* Increased font size */
         }
         
         /* New remark lines style */
@@ -715,80 +724,88 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
-
-        /* Cost Container and Column Styles */
+        
+        /* Cost Container Styles */
         .cost-container {
             display: flex;
             gap: 25px;
             margin-bottom: 25px;
             width: 100%;
         }
-
+        
         .cost-column {
             flex: 1;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 18px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
-
+        
+        .main-cost-column {
+            flex: 1.5; /* 60% width */
+        }
+        
+        .stock-column {
+            flex: 1; /* 40% width */
+        }
+        
         .cost-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 17px; /* Increased font size */
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 6px;
+            overflow: hidden;
         }
-
-        .cost-table th, .cost-table td {
+        
+        .cost-section-title {
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .cost-table td {
             padding: 12px;
             border-bottom: 1px solid #ddd;
-            text-align: left;
         }
-
-        .cost-table th {
-            font-weight: bold;
-        }
-
-        .cost-section-title {
-            font-size: 18px; /* Slightly larger font */
-            text-align: center;
-            padding: 12px;
-        }
-
+        
         .item-col {
             width: 60%;
+            font-weight: bold;
         }
-
+        
         .qty-col {
             width: 40%;
         }
-
+        
         .input-with-symbol {
             display: flex;
             align-items: center;
         }
-
+        
         .currency-symbol {
-            margin-right: 5px;
-            font-size: 17px; /* Increased font size */
+            margin-right: 8px;
+            font-weight: bold;
         }
-
-        .calculator-input, .stock-input {
+        
+        .calculator-input {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
+            padding: 10px;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 16px; /* Slightly larger font */
+            font-size: 14px;
         }
-
-        /* Stock Column Container */
-        .stock-column {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        
+        .stock-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: right;
         }
-
-        /* Fixed Length Land Scope Table */
+        
+        /* Fixed Length Land Scope Table - Full Width */
         .fixed-landscope-container {
             margin-top: 20px;
             width: 100%;
@@ -796,32 +813,34 @@
         }
 
         .fixed-landscope-box {
-            width: 1160px;
+            width: 100%;
             border: 1px solid #000;
-            padding: 10px;
+            padding: 15px;
             box-sizing: border-box;
             background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .fixed-landscope-title {
             font-weight: bold;
-            font-size: 16px; /* Increased font size */
-            margin-bottom: 7px;
+            font-size: 16px;
+            margin-bottom: 10px;
             text-decoration: underline;
         }
 
         .fixed-landscope-lines {
-            font-family: monospace;
-            letter-spacing: 0.5px;
+            font-family: Arial, sans-serif;
         }
 
         .fixed-line {
-            min-height: 24px;
-            line-height: 24px;
+            min-height: 28px;
+            line-height: 28px;
             border-bottom: 1px solid #eee;
             white-space: nowrap;
             overflow: hidden;
-            font-size: 15px; /* Increased font size */
+            font-size: 15px;
+            padding: 5px 0;
         }
 
         .fixed-line:last-child {
@@ -1105,7 +1124,7 @@
 
     <!-- Cost Calculator Section -->
     <div class="cost-container">
-        <!-- Individual Costs Column -->
+        <!-- Main Costs Column (60% width) -->
         <div class="cost-column main-cost-column">
             <table class="cost-table" id="individualCosts">
                 <tr>
@@ -1231,7 +1250,7 @@
             </table>
         </div>
         
-        <!-- Stock Column -->
+        <!-- Stock Column (40% width) -->
         <div class="cost-column stock-column">
             <table class="cost-table stock-box">
                 <tr>

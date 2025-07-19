@@ -161,7 +161,7 @@
                     <td style="width: 40%;">MIXING COST</td>
                     <td style="width: 60%;">
                         <div class="input-with-symbol">
-                            <span class="currency-symbol"></span>
+                            <span class="currency-symbol">₹</span>
                             <input type="number" id="mixing" class="calculator-input">
                         </div>
                     </td>
@@ -170,7 +170,7 @@
                     <td>NMR COST</td>
                     <td>
                         <div class="input-with-symbol">
-                            <span class="currency-symbol"></span>
+                            <span class="currency-symbol">₹</span>
                             <input type="number" id="nmr" class="calculator-input">
                         </div>
                     </td>
@@ -179,7 +179,7 @@
                     <td>EB COST</td>
                     <td>
                         <div class="input-with-symbol">
-                            <span class="currency-symbol"></span>
+                            <span class="currency-symbol">₹</span>
                             <input type="number" id="eb" class="calculator-input">
                         </div>
                     </td>
@@ -281,71 +281,58 @@
         <div class="cost-column stock-column">
             <table class="cost-table stock-box">
                 <tr>
-                    <th colspan="2" class="cost-section-title" style="background-color: #1565C0;">STOCK</th>
+                    <th colspan="2" class="cost-section-title" style="background-color: #1565C0;">SPARE PARTS STOCK</th>
                 </tr>
                 <tr>
-                    <td class="item-col">Item 1</td>
+                    <td class="item-col">VRM Rings</td>
                     <td class="qty-col"><input type="number" class="stock-input"></td>
                 </tr>
                 <tr>
-                    <td class="item-col">Item 2</td>
+                    <td class="item-col">VRM Pins</td>
                     <td class="qty-col"><input type="number" class="stock-input"></td>
                 </tr>
                 <tr>
-                    <td class="item-col">Item 3</td>
+                    <td class="item-col">VRM Rollers</td>
                     <td class="qty-col"><input type="number" class="stock-input"></td>
                 </tr>
                 <tr>
-                    <td class="item-col">Item 4</td>
+                    <td class="item-col">Turn Tables</td>
                     <td class="qty-col"><input type="number" class="stock-input"></td>
                 </tr>
                 <tr>
-                    <td class="item-col">Item 5</td>
+                    <td class="item-col">Bearing Housing</td>
                     <td class="qty-col"><input type="number" class="stock-input"></td>
                 </tr>
                 <tr>
-                    <td class="item-col">Item 6</td>
-                    <td class="qty-col"><input type="number" class="stock-input"></td>
-                </tr>
-                <tr>
-                    <td class="item-col">Item 7</td>
-                    <td class="qty-col"><input type="number" class="stock-input"></td>
-                </tr>
-                <tr>
-                    <td class="item-col">Item 8</td>
+                    <td class="item-col">Classifier Antiware</td>
                     <td class="qty-col"><input type="number" class="stock-input"></td>
                 </tr>
             </table>
             
             <table class="cost-table stock-box">
                 <tr>
-                    <th colspan="2" class="cost-section-title" style="background-color: #6A1B9A;">OTHER ITEMS</th>
+                    <th colspan="2" class="cost-section-title" style="background-color: #6A1B9A;">MATERIAL STOCK</th>
                 </tr>
                 <tr>
-                    <td class="item-col">Other Item 1</td>
+                    <td class="item-col">Godown AMS Stock</td>
                     <td class="qty-col"><input type="number" class="stock-input"></td>
                 </tr>
                 <tr>
-                    <td class="item-col">Other Item 2</td>
+                    <td class="item-col">Branding Bag Stock</td>
                     <td class="qty-col"><input type="number" class="stock-input"></td>
                 </tr>
                 <tr>
-                    <td class="item-col">Other Item 3</td>
+                    <td class="item-col">Diesel Stock (Ltrs)</td>
                     <td class="qty-col"><input type="number" class="stock-input"></td>
                 </tr>
                 <tr>
-                    <td class="item-col">Other Item 4</td>
-                    <td class="qty-col"><input type="number" class="stock-input"></td>
-                </tr>
-                <tr>
-                    <td class="item-col">Other Item 5</td>
+                    <td class="item-col">LDO Stock (Ltrs)</td>
                     <td class="qty-col"><input type="number" class="stock-input"></td>
                 </tr>
             </table>
         </div>
     </div>
     
-    <button id="playReview" class="review-btn">Play Review</button>
     
     <script>
         document.getElementById('playReview').addEventListener('click', function() {

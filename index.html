@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGX Minerals - Production & Cost Management</title>
     <style>
-        /* Global Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -13,1250 +9,433 @@
             background-color: #f5f5f5;
         }
         
-        /* Common Header Styles */
-        .header {
-            background-color: orange;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 25px;
-            position: relative;
-            border-radius: 5px;
-        }
-        
-        .company-name {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        
-        .date-picker {
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(255,255,255,0.2);
-            padding: 8px 15px;
-            border-radius: 5px;
-        }
-        
-        .date-picker label {
-            font-size: 18px;
-            margin-right: 8px;
-        }
-        
-        .date-picker input {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        
-        /* Common Button Styles */
-        .submit-btn {
-            background-color: orange;
-            color: white;
-            padding: 14px 28px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-            margin-top: 25px;
-            transition: background-color 0.3s;
-        }
-        
-        .submit-btn:hover {
-            background-color: #e69500;
-        }
-        
-        .no-print {
-            text-align: center;
-            margin-top: 30px;
-        }
-        
-        /* Compact Dashboard Styles */
-        .compact-dashboard {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        .compact-section {
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-            flex: 1;
-            min-width: 250px;
-        }
-        .compact-section-title {
-            background-color: orange;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            border-radius: 5px 5px 0 0;
-        }
-        .compact-section-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .compact-section-table th, .compact-section-table td {
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-        .compact-section-table th {
-            width: 40%;
-            font-weight: normal;
-        }
-        .compact-input-field {
-            width: 100%;
-            padding: 6px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            height: 30px;
-        }
-        .compact-total-row {
-            background-color: #ffe6cc;
-            font-weight: bold;
-        }
-        .compact-total-input {
-            background-color: #f0f0f0;
-        }
-        .compact-stock-box {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .compact-stock-column {
-            flex: 1;
-            min-width: 150px;
-        }
-        .compact-stock-header {
-            background-color: orange;
-            color: white;
-            padding: 5px;
-            text-align: center;
-            margin-bottom: 5px;
-            border-radius: 3px;
-        }
-        .opening-stock {
-            background-color: #e6f7ff; /* Light blue for opening stock */
-        }
-        .closing-stock {
-            background-color: #e6ffe6; /* Light green for closing stock */
-        }
-
-        /* Production Dashboard Styles */
-        .dashboard {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            font-size: 16px;
-        }
-        
-        .section {
-            border: 1px solid #ddd;
-            padding: 18px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: white;
-        }
-        
-        .section-title {
-            background-color: #e6e6e6;
-            font-weight: bold;
-            text-align: center;
-            padding: 10px;
-            margin: -18px -18px 15px -18px;
-            font-size: 18px;
-            border-radius: 5px 5px 0 0;
-        }
-        
-        .dashboard table {
-            border-collapse: collapse;
-            width: 100%;
-            table-layout: fixed;
-            font-size: 16px;
-        }
-        
-        .dashboard th, .dashboard td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-        }
-        
-        .dashboard th {
-            background-color: #f2f2f2;
-            font-size: 16px;
-        }
-        
-        .dashboard input {
-            width: 85px;
-            padding: 8px;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 15px;
-        }
-        
-        .inline-form {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-        
-        .form-label {
-            font-weight: bold;
-            min-width: 130px;
-            font-size: 16px;
-        }
-        
-        .cost-details {
-            margin-top: 12px;
-            font-size: 16px;
-        }
-        
-        .cost-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        
-        .cost-label {
-            font-weight: bold;
-        }
-        
-        .cost-value {
-            text-align: right;
-        }
-        
-        .horizontal-container {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            margin-bottom: 25px;
-            width: 100%;
-        }
-        
-        .horizontal-section {
-            border: 1px solid #ddd;
-            padding: 18px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: white;
-        }
-        
-        .horizontal-table {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .horizontal-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .horizontal-cell {
-            flex: 1;
-            text-align: center;
-        }
-        
-        .horizontal-header {
-            font-weight: bold;
-            background-color: #f2f2f2;
-            padding: 12px;
-            font-size: 16px;
-        }
-        
-        .combined-table {
-            width: 100%;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: white;
-        }
-        
-        .combined-table th, .combined-table td {
-            padding: 14px;
-        }
-        
-        .row-header {
-            font-weight: bold;
-            text-align: left;
-            background-color: #f2f2f2;
-            font-size: 16px;
-        }
-        
-        .operations-container {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            margin-bottom: 25px;
-            width: 100%;
-        }
-        
-        .operations-section {
-            border: 1px solid #ddd;
-            padding: 18px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: white;
-        }
-        
-        .operations-table {
-            width: 100%;
-        }
-        
-        .operations-table th {
-            background-color: #f2f2f2;
-        }
-        
-        .ftd-section {
-            border: 1px solid #ddd;
-            padding: 18px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: white;
-        }
-        
-        .ftd-title {
-            background-color: #e6e6e6;
-            font-weight: bold;
-            text-align: center;
-            padding: 10px;
-            margin: -18px -18px 15px -18px;
-            font-size: 18px;
-            border-radius: 5px 5px 0 0;
-        }
-        
-        .ftd-table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        
-        .ftd-table th, .ftd-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        
-        .ftd-table th {
-            background-color: #f2f2f2;
-        }
-        
-        .ftd-input-full {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        
-        /* Cost Calculator Styles */
         .cost-container {
             display: flex;
-            flex-direction: column;
-            gap: 25px;
-            margin-bottom: 25px;
+            gap: 30px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
         .cost-column {
-            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         
         .cost-table {
             width: 100%;
             border-collapse: collapse;
-            border: 2px solid #000;
-            font-size: 16px;
-            margin-bottom: 30px;
             background-color: white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .cost-table th, .cost-table td {
+            padding: 10px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
         }
         
         .cost-table th {
             background-color: #f2f2f2;
-            border: 1px solid #000;
-            padding: 10px;
-            text-align: center;
             font-weight: bold;
-            font-size: 18px;
-        }
-        
-        .cost-table td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: center;
-            height: 30px;
-        }
-        
-        .total-row {
-            font-weight: bold;
-            background-color: #ffe6cc;
-            font-size: 18px;
-        }
-        
-        .cost-kg-row {
-            font-weight: bold;
-            background-color: orange;
-            color: white;
-            font-size: 18px;
         }
         
         .cost-section-title {
-            background-color: #d9d9d9;
-            font-weight: bold;
+            color: white;
+            font-size: 16px;
             text-align: center;
-            font-size: 20px;
             padding: 10px;
-        }
-        
-        .calculator-title {
-            font-size: 32px;
-            margin-bottom: 40px;
-            text-align: center;
-            color: #333;
-            display: none; /* Hide the calculator title */
+            font-weight: bold;
         }
         
         .calculator-input {
-            width: 90%;
-            padding: 6px;
-            font-size: 16px;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin: 0 auto;
-            display: block;
-            height: 25px;
-        }
-        
-        .button-container {
-            margin: 30px 0;
-            display: flex;
-            gap: 25px;
-            justify-content: center;
-        }
-        
-        .calculator-btn {
-            padding: 14px 30px;
-            font-size: 20px;
-            background-color: orange;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        .calculator-btn:hover {
-            background-color: #e69500;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .calculator-btn:active {
-            transform: translateY(0);
-        }
-        
-        .reset-btn {
-            background-color: #f44336;
-        }
-        
-        .reset-btn:hover {
-            background-color: #d32f2f;
-        }
-        
-        /* Remark Section Styles */
-        .remark-container {
-            width: 100%;
-            margin-bottom: 30px;
-        }
-        
-        .remark-box {
+            width: 95%;
+            padding: 8px 10px;
             border: 1px solid #ddd;
-            padding: 18px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: white;
-            width: 100%;
-        }
-        
-        .remark-title {
-            background-color: #e6e6e6;
-            font-weight: bold;
-            text-align: center;
-            padding: 10px;
-            margin: -18px -18px 15px -18px;
-            font-size: 18px;
-            border-radius: 5px 5px 0 0;
-        }
-        
-        .remark-textarea {
-            width: 100%;
-            height: 100px;
-            padding: 10px;
-            border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 16px;
-            resize: vertical;
             box-sizing: border-box;
+            font-size: 16px;
+            margin-left: 5px;
         }
         
-        .remark-button-container {
+        .input-with-symbol {
+            display: flex;
+            align-items: center;
+        }
+        
+        .currency-symbol {
+            color: #666;
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .stock-input {
+            width: 95%;
+            padding: 8px 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: transparent;
             text-align: right;
-            margin-top: 15px;
         }
         
-        .remark-btn {
-            padding: 10px 20px;
-            background-color: orange;
+        .main-cost-column {
+            flex: 6;
+        }
+        
+        .stock-column {
+            flex: 4;
+        }
+        
+        .stock-box {
+            height: auto;
+        }
+        
+        .item-col {
+            width: 60%;
+        }
+        
+        .qty-col {
+            width: 40%;
+            text-align: right;
+        }
+        
+        .review-btn {
+            background-color: #2E7D32;
             color: white;
             border: none;
+            padding: 12px 20px;
+            font-size: 16px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .remark-btn:hover {
-            background-color: #e69500;
+        .review-btn:hover {
+            background-color: #1B5E20;
         }
         
-        /* Print Styles */
         @media print {
-            @page {
-                size: portrait;
-                margin: 10mm;
-            }
-            
             body {
-                margin: 0;
-                padding: 10px;
-                zoom: 1;
-                font-size: 14px;
+                padding: 0;
                 background-color: white;
             }
             
-            .no-print {
+            .cost-container {
+                max-width: 100%;
+                page-break-after: avoid;
+            }
+            
+            @page {
+                size: landscape;
+                margin: 1cm;
+            }
+            
+            .stock-input {
+                border: none;
+                -webkit-appearance: none;
+                -moz-appearance: textfield;
+            }
+            
+            .review-btn {
                 display: none;
-            }
-            
-            input {
-                border: none;
-                background: transparent;
-                width: auto;
-                box-shadow: none;
-            }
-            
-            textarea {
-                border: none;
-                background: transparent;
-                resize: none;
-            }
-            
-            .header, .compact-section-title, .compact-stock-header {
-                background-color: orange !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .section-title, th, .row-header {
-                background-color: #f2f2f2 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .cost-table {
-                box-shadow: none;
-            }
-            
-            .opening-stock {
-                background-color: #e6f7ff !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .closing-stock {
-                background-color: #e6ffe6 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-        }
-        
-        /* Top sections container */
-        .top-sections {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            margin-bottom: 25px;
-            width: 100%;
-        }
-        
-        /* Cost calculator header */
-        .cost-header {
-            display: none; /* Hide the cost calculator header */
-        }
-        
-        /* New styles for additional boxes */
-        .total-cost-box {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .total-cost-item {
-            flex: 1;
-            min-width: 200px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .total-cost-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-            background-color: #f2f2f2;
-            padding: 8px;
-            border-radius: 4px;
-        }
-        
-        .total-cost-value {
-            text-align: center;
-            font-size: 18px;
-            padding: 10px;
-        }
-        
-        .total-cost-value input {
-            width: 100%;
-            padding: 8px;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        
-        .note-box {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
-        }
-        
-        .note-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .note-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        
-        .additional-box {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
-        }
-        
-        .additional-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .remark-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .remark-cell {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            min-height: 60px;
-        }
-        
-        .remark-label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .simple-remark {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .simple-remark-label {
-            font-weight: bold;
-            margin-right: 10px;
-            min-width: 80px;
-        }
-        
-        .simple-remark-input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        
-        /* New styles for cost summary boxes */
-        .cost-summary-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
-            width: 100%;
-        }
-        
-        .cost-summary-box {
-            flex: 1;
-            min-width: 200px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .cost-summary-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            background-color: #f2f2f2;
-            padding: 8px;
-            border-radius: 4px;
-        }
-        
-        .cost-summary-value {
-            font-size: 18px;
-            padding: 10px;
-        }
-        
-        .cost-summary-value input {
-            width: 100%;
-            padding: 8px;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        
-        /* Spare parts stock styles */
-        .spare-parts-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .spare-parts-box {
-            flex: 1;
-            min-width: 200px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .spare-parts-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-            background-color: #f2f2f2;
-            padding: 8px;
-            border-radius: 4px;
-        }
-        
-        .spare-parts-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .spare-parts-table th, .spare-parts-table td {
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-        
-        .spare-parts-table th {
-            width: 70%;
-            font-weight: normal;
-        }
-        
-        .spare-parts-table td {
-            width: 30%;
-        }
-        
-        .spare-parts-input {
-            width: 100%;
-            padding: 6px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        
-        /* New remark lines style */
-        .remark-lines {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .remark-line {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        /* Modified styles for portrait mode */
-        @media screen {
-            body {
-                width: 100%;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-            
-            /* Adjust mixing details section to 50% width */
-            .compact-dashboard .compact-section:nth-child(3) {
-                flex: 0 0 calc(50% - 8px);
-                max-width: calc(50% - 8px);
-            }
-            
-            /* Adjust dryer and VRM operations columns */
-            .operations-table th:nth-child(2),
-            .operations-table td:nth-child(2) {
-                width: 25%;
-            }
-            
-            .operations-table th:nth-child(3),
-            .operations-table td:nth-child(3) {
-                width: 25%;
-            }
-            
-            .operations-table th:nth-child(4),
-            .operations-table td:nth-child(4) {
-                width: 50%;
-            }
-            
-            /* Make production details table more compact */
-            .combined-table th, .combined-table td {
-                padding: 8px;
-                font-size: 14px;
-            }
-            
-            .combined-table input {
-                width: 70px;
-                padding: 5px;
-                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Production Dashboard -->
-    <div class="header">
-        <div class="company-name">SGX MINERALS PVT LTD - MICRO DIVISION</div>
-        <div class="date-picker no-print">
-            <label for="report-date">Date: </label>
-            <input type="date" id="report-date" name="report-date">
-        </div>
-    </div>
-
-    <!-- Compact Dashboard Section -->
-    <div class="compact-dashboard">
-        <!-- FTD Section -->
-        <div class="compact-section">
-            <div class="compact-section-title">FTD DETAILS</div>
-            <table class="compact-section-table">
+    <div class="cost-container">
+        <!-- Main Costs Column (60% width) -->
+        <div class="cost-column main-cost-column">
+            <table class="cost-table" id="individualCosts">
                 <tr>
-                    <th>FTD Dispatch</th>
-                    <td><input type="text" class="compact-input-field"></td>
+                    <th colspan="2" class="cost-section-title" style="background-color: #2E7D32;">INDIVIDUAL COSTS</th>
                 </tr>
                 <tr>
-                    <th>FTD Received</th>
-                    <td><input type="text" class="compact-input-field"></td>
-                </tr>
-                <tr>
-                    <th>MTD DRYER</th>
-                    <td><input type="number" class="compact-input-field"></td>
-                </tr>
-                <tr>
-                    <th>MTD VRM</th>
-                    <td><input type="number" class="compact-input-field"></td>
-                </tr>
-                <tr>
-                    <th>MTD Dispatch</th>
-                    <td><input type="number" class="compact-input-field"></td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- Stock Box -->
-        <div class="compact-section">
-            <div class="compact-section-title">STOCK DETAILS</div>
-            <div class="compact-stock-box">
-                <div class="compact-stock-column opening-stock">
-                    <div class="compact-stock-header">OPENING</div>
-                    <table class="compact-section-table">
-                        <tr>
-                            <th>SGX Raw (RM)</th>
-                            <td><input type="number" class="compact-input-field"></td>
-                        </tr>
-                        <tr>
-                            <th>RH</th>
-                            <td><input type="number" class="compact-input-field"></td>
-                        </tr>
-                        <tr>
-                            <th>OPC</th>
-                            <td><input type="number" class="compact-input-field"></td>
-                        </tr>
-                        <tr>
-                            <th>ACC</th>
-                            <td><input type="number" class="compact-input-field"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="compact-stock-column closing-stock">
-                    <div class="compact-stock-header">CLOSING</div>
-                    <table class="compact-section-table">
-                        <tr>
-                            <th>SGX Raw (RM)</th>
-                            <td><input type="number" class="compact-input-field"></td>
-                        </tr>
-                        <tr>
-                            <th>RH</th>
-                            <td><input type="number" class="compact-input-field"></td>
-                        </tr>
-                        <tr>
-                            <th>OPC</th>
-                            <td><input type="number" class="compact-input-field"></td>
-                        </tr>
-                        <tr>
-                            <th>ACC</th>
-                            <td><input type="number" class="compact-input-field"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mixing Details (50% width) -->
-        <div class="compact-section">
-            <div class="compact-section-title">MIXING DETAILS</div>
-            <table class="compact-section-table">
-                <tr>
-                    <th>DAY Mixing</th>
-                    <td><input type="number" class="compact-input-field"></td>
-                </tr>
-                <tr>
-                    <th>NIGHT Mixing</th>
-                    <td><input type="number" class="compact-input-field"></td>
-                </tr>
-                <tr>
-                    <th>FTD Mixing</th>
-                    <td><input type="number" class="compact-input-field"></td>
-                </tr>
-                <tr>
-                    <th>MTD Mixing</th>
-                    <td><input type="number" class="compact-input-field"></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <!-- Production Dashboard -->
-    <div class="dashboard">
-        <!-- Combined Table for Raw Materials and Production Output -->
-        <div class="section">
-            <div class="section-title">PRODUCTION DETAILS</div>
-            <table class="combined-table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%;">PRODUCT</th>
-                        <th style="width: 12%;">SGX</th>
-                        <th style="width: 12%;">RH</th>
-                        <th style="width: 12%;">OPC</th>
-                        <th style="width: 12%;">ACCLTR</th>
-                        <th style="width: 12%;">GROUND MIXING</th>
-                        <th style="width: 12%;">VRM OUTPUT</th>
-                        <th style="width: 12%;">DRYER OUTPUT</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="row-header">D-80</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td class="row-header">D-90</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Cost Summary Boxes -->
-        <div class="cost-summary-container">
-            <div class="cost-summary-box">
-                <div class="cost-summary-title">DRYER COST/MT</div>
-                <div class="cost-summary-value"><input type="text" id="dryerCost" placeholder="0.00"></div>
-            </div>
-            <div class="cost-summary-box">
-                <div class="cost-summary-title">VRM COST/MT</div>
-                <div class="cost-summary-value"><input type="text" id="vrmCost" placeholder="0.00"></div>
-            </div>
-            <div class="cost-summary-box">
-                <div class="cost-summary-title">TOTAL COST/MT</div>
-                <div class="cost-summary-value"><input type="text" id="totalCostMT" placeholder="0.00"></div>
-            </div>
-            <div class="cost-summary-box">
-                <div class="cost-summary-title">TOTAL COST/KG</div>
-                <div class="cost-summary-value"><input type="text" id="totalCostKG" placeholder="0.00"></div>
-            </div>
-        </div>
-
-        <!-- Operations Sections -->
-        <div class="operations-container">
-            <!-- Dryer Operations -->
-            <div class="operations-section">
-                <div class="section-title">DRYER OPERATIONS</div>
-                <table class="operations-table">
-                    <tr>
-                        <th></th>
-                        <th>DAY</th>
-                        <th>NIGHT</th>
-                        <th>TOTAL</th>
-                    </tr>
-                    <tr>
-                        <td>RUNNING Hrs</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>PRODUCTION</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>TPH</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>LDO (Ltrs)</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>JCB (Hrs)</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- VRM Operations -->
-            <div class="operations-section">
-                <div class="section-title">VRM OPERATIONS</div>
-                <table class="operations-table">
-                    <tr>
-                        <th></th>
-                        <th>DAY</th>
-                        <th>NIGHT</th>
-                        <th>TOTAL</th>
-                    </tr>
-                    <tr>
-                        <td>RUNNING Hrs</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>PRODUCTION</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>TPH</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>EB (Units)</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>NMR (Hrs)</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-        <!-- Additional Information Section -->
-        <div class="section">
-            <div class="section-title">ADDITIONAL INFORMATION</div>
-            <div class="remark-lines">
-                <div class="remark-line">1. <input type="text" style="width: 95%;" placeholder="Remark 1"></div>
-                <div class="remark-line">2. <input type="text" style="width: 95%;" placeholder="Remark 2"></div>
-                <div class="remark-line">3. <input type="text" style="width: 95%;" placeholder="Remark 3"></div>
-            </div>
-        </div>
-
-        <!-- Signatures Section -->
-        <div class="section">
-            <div class="section-title">SIGNATURES</div>
-            <table style="width: 100%; margin-top: 15px;">
-                <tr>
-                    <td style="text-align: center; width: 33%;">
-                        <div style="border-top: 1px solid #000; padding-top: 5px;">PREPARED BY</div>
+                    <td style="width: 40%;">MIXING COST</td>
+                    <td style="width: 60%;">
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol"></span>
+                            <input type="number" id="mixing" class="calculator-input">
+                        </div>
                     </td>
-                    <td style="text-align: center; width: 33%;">
-                        <div style="border-top: 1px solid #000; padding-top: 5px;">CHECKED BY</div>
+                </tr>
+                <tr>
+                    <td>NMR COST</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol"></span>
+                            <input type="number" id="nmr" class="calculator-input">
+                        </div>
                     </td>
-                    <td style="text-align: center; width: 33%;">
-                        <div style="border-top: 1px solid #000; padding-top: 5px;">APPROVED BY</div>
+                </tr>
+                <tr>
+                    <td>EB COST</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol"></span>
+                            <input type="number" id="eb" class="calculator-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Forklift cost</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" id="forklift" class="calculator-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BAG COST</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" id="bag" class="calculator-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>LDO COST</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" id="ldo" class="calculator-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>JCB operator</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" id="jcbOperator" class="calculator-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>JCB fuel cost</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" id="jcbFuel" class="calculator-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Spare Part cost</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" id="spare" class="calculator-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Maintenance Cost</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" id="maintenance" class="calculator-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vehicle Loading cost</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" id="loading" class="calculator-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vehicle Unloading Cost</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" id="unloading" class="calculator-input">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Misc. Cost</td>
+                    <td>
+                        <div class="input-with-symbol">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" id="misc" class="calculator-input">
+                        </div>
                     </td>
                 </tr>
             </table>
         </div>
-    </div>
-
-    <div class="no-print">
-        <button class="submit-btn" onclick="window.print()">PRINT REPORT</button>
-    </div>
-
-    <script>
-        // Set today's date as default
-        document.getElementById('report-date').valueAsDate = new Date();
         
-        // Auto-calculate totals where applicable
-        // You can add more JavaScript functions here for calculations
+        <!-- Stock Column (40% width) -->
+        <div class="cost-column stock-column">
+            <table class="cost-table stock-box">
+                <tr>
+                    <th colspan="2" class="cost-section-title" style="background-color: #1565C0;">STOCK</th>
+                </tr>
+                <tr>
+                    <td class="item-col">Item 1</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Item 2</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Item 3</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Item 4</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Item 5</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Item 6</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Item 7</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Item 8</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+            </table>
+            
+            <table class="cost-table stock-box">
+                <tr>
+                    <th colspan="2" class="cost-section-title" style="background-color: #6A1B9A;">OTHER ITEMS</th>
+                </tr>
+                <tr>
+                    <td class="item-col">Other Item 1</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Other Item 2</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Other Item 3</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Other Item 4</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+                <tr>
+                    <td class="item-col">Other Item 5</td>
+                    <td class="qty-col"><input type="number" class="stock-input"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <button id="playReview" class="review-btn">Play Review</button>
+    
+    <script>
+        document.getElementById('playReview').addEventListener('click', function() {
+            // Get all the input values
+            const mixing = document.getElementById('mixing').value || '0';
+            const nmr = document.getElementById('nmr').value || '0';
+            const eb = document.getElementById('eb').value || '0';
+            const forklift = document.getElementById('forklift').value || '0';
+            const bag = document.getElementById('bag').value || '0';
+            const ldo = document.getElementById('ldo').value || '0';
+            const jcbOperator = document.getElementById('jcbOperator').value || '0';
+            const jcbFuel = document.getElementById('jcbFuel').value || '0';
+            const spare = document.getElementById('spare').value || '0';
+            const maintenance = document.getElementById('maintenance').value || '0';
+            const loading = document.getElementById('loading').value || '0';
+            const unloading = document.getElementById('unloading').value || '0';
+            const misc = document.getElementById('misc').value || '0';
+            
+            // Get stock items
+            const stockInputs = document.querySelectorAll('.stock-input');
+            const stockItems = [];
+            
+            document.querySelectorAll('.cost-table.stock-box').forEach(table => {
+                const rows = table.querySelectorAll('tr:not(:first-child)');
+                rows.forEach((row, index) => {
+                    const itemName = row.querySelector('.item-col').textContent.trim();
+                    const quantity = stockInputs[index].value || '0';
+                    stockItems.push({itemName, quantity});
+                });
+            });
+            
+            // Prepare the review text
+            let reviewText = "Cost Review. ";
+            reviewText += `Mixing cost: ${mixing} rupees. `;
+            reviewText += `NMR cost: ${nmr} rupees. `;
+            reviewText += `EB cost: ${eb} rupees. `;
+            reviewText += `Forklift cost: ${forklift} rupees. `;
+            reviewText += `Bag cost: ${bag} rupees. `;
+            reviewText += `LDO cost: ${ldo} rupees. `;
+            reviewText += `JCB operator cost: ${jcbOperator} rupees. `;
+            reviewText += `JCB fuel cost: ${jcbFuel} rupees. `;
+            reviewText += `Spare part cost: ${spare} rupees. `;
+            reviewText += `Maintenance cost: ${maintenance} rupees. `;
+            reviewText += `Vehicle loading cost: ${loading} rupees. `;
+            reviewText += `Vehicle unloading cost: ${unloading} rupees. `;
+            reviewText += `Miscellaneous cost: ${misc} rupees. `;
+            
+            reviewText += "Stock items. ";
+            stockItems.forEach(item => {
+                reviewText += `${item.itemName}: ${item.quantity}. `;
+            });
+            
+            // Calculate and speak total cost
+            const totalCost = parseFloat(mixing) + parseFloat(nmr) + parseFloat(eb) + 
+                             parseFloat(forklift) + parseFloat(bag) + parseFloat(ldo) + 
+                             parseFloat(jcbOperator) + parseFloat(jcbFuel) + parseFloat(spare) + 
+                             parseFloat(maintenance) + parseFloat(loading) + parseFloat(unloading) + 
+                             parseFloat(misc);
+            
+            reviewText += `Total cost: ${totalCost.toFixed(2)} rupees.`;
+            
+            // Speak the review
+            speakText(reviewText);
+        });
+        
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance();
+                speech.text = text;
+                speech.volume = 1;
+                speech.rate = 0.9;
+                speech.pitch = 1;
+                
+                // Try to find an English voice
+                const voices = window.speechSynthesis.getVoices();
+                const englishVoice = voices.find(voice => voice.lang.includes('en'));
+                if (englishVoice) {
+                    speech.voice = englishVoice;
+                }
+                
+                window.speechSynthesis.speak(speech);
+            } else {
+                alert("Text-to-speech is not supported in your browser.");
+            }
+        }
+        
+        // Load voices when the page loads
+        window.speechSynthesis.onvoiceschanged = function() {
+            // Voices are now loaded
+        };
     </script>
 </body>
 </html>
-<!-- Fixed Length Land Scope Table - Full Width -->
-<div class="fixed-landscope-container">
-    <div class="fixed-landscope-box">
-        <div class="fixed-landscope-title">LAND SCOPE:</div>
-        <div class="fixed-landscope-lines">
-            <div class="fixed-line">1. _______________________________________________________</div>
-            <div class="fixed-line">2. _______________________________________________________</div>
-            <div class="fixed-line">3. _______________________________________________________</div>
-            <div class="fixed-line">4. _______________________________________________________</div>
-            <div class="fixed-line">5. _______________________________________________________</div>
-        </div>
-    </div>
-</div>
-
-<style>
-.fixed-landscope-container {
-    margin-top: 20px;
-    width: 100%;
-    overflow-x: auto;
-}
-
-.fixed-landscope-box {
-    width: 1360px; /* Full width doubled from original */
-    border: 1px solid #000;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: white;
-}
-
-.fixed-landscope-title {
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 8px;
-    text-decoration: underline;
-}
-
-.fixed-landscope-lines {
-    font-family: monospace;
-    letter-spacing: 0.5px;
-}
-
-.fixed-line {
-    min-height: 24px;
-    line-height: 24px;
-    border-bottom: 1px solid #eee;
-    white-space: nowrap;
-    overflow: hidden;
-    font-size: 14px;
-}
-
-.fixed-line:last-child {
-    border-bottom: none;
-}
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Make the lines editable while preserving the numbering
-    const lines = document.querySelectorAll('.fixed-line');
-    lines.forEach(line => {
-        line.setAttribute('contenteditable', 'true');
-        
-        // Preserve the numbering pattern
-        line.addEventListener('focus', function() {
-            const currentText = this.innerText;
-            if (!currentText.match(/^\d+\.\s/)) {
-                const lineNum = this.textContent.match(/^\d+/)[0];
-                this.innerHTML = lineNum + '. ';
-            }
-        });
-        
-        line.addEventListener('blur', function() {
-            const currentText = this.innerText;
-            if (!currentText.match(/^\d+\.\s/)) {
-                const lineNum = this.textContent.match(/^\d+/)[0];
-                this.innerHTML = lineNum + '. ' + currentText.replace(/^\d+\.\s?/, '');
-            }
-        });
-    });
-});
-</script>
